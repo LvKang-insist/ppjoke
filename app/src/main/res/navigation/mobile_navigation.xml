@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+    <!--   startDestination： 默认要显示的界面-->
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.lvkang.ppjoke.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <!--   创建当前 fragment 的时候需要传递的参数    -->
+        <argument
+            android:name="arg1"
+            android:defaultValue="111"
+            app:argType="string" />
+        <!--   当前 fragment 跳转到下一个目标页的动作，所以需要指定一个目标页-->
+        <action
+            android:id="@+id/id_action"
+            app:destination="@id/navigation_dashboard" />
+        <!--   通过 uri 的方式来拉起当前页面-->
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="www.mooc.com" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.lvkang.ppjoke.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.lvkang.ppjoke.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+</navigation>

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion this.rootProject.android.compileSdkVersion
+    defaultConfig {
+        applicationId this.rootProject.android.applicationId
+        minSdkVersion this.rootProject.android.minSdkVersion
+        targetSdkVersion this.rootProject.android.targetSdkVersion
+        versionCode this.rootProject.android.versionCode
+        versionName this.rootProject.android.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation this.rootProject.depsLibs.appcompat
+    implementation this.rootProject.depsLibs.corektx
+    implementation this.rootProject.depsLibs.material
+    implementation this.rootProject.depsLibs.navigationF
+    implementation this.rootProject.depsLibs.navigationU
+    implementation this.rootProject.depsLibs.navigationFktx
+    implementation this.rootProject.depsLibs.navigationUktx
+    implementation this.rootProject.depsLibs.lifecycle
+    implementation this.rootProject.depsLibs.constraintlayout
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation project(':libnavannotation')
+    kapt project(":libnavcompiler")
+}
