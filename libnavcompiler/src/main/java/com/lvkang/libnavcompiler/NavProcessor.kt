@@ -93,11 +93,9 @@ class NavProcessor : AbstractProcessor() {
             File(assetsPath).let { file ->
                 if (!file.exists()) file.mkdir()
                 File(file, OUTPUT_FILE_NAME).let { newFile ->
-                    //文件存在，删掉
                     if (newFile.exists()) newFile.delete()
                     newFile.createNewFile()
                     val content = JSON.toJSONString(destMap)
-                    //写入文件
                     newFile.outputStream().bufferedWriter().use {
                         it.write(content)
                         it.flush()
