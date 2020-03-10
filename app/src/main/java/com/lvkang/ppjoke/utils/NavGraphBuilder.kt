@@ -18,20 +18,24 @@ import androidx.navigation.fragment.FragmentNavigator
 class NavGraphBuilder {
     companion object {
         fun build(navController: NavController) {
+
             val provider = navController.navigatorProvider
+
+            //节点集合
+            val navGraph = NavGraph(NavGraphNavigator(provider))
+
+            //获取已经注册的导航
             val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
             val activityNavigator = provider.getNavigator(ActivityNavigator::class.java)
 
-            val navGraph = NavGraph(NavGraphNavigator(provider))
             val destConfig = AppConfig.getDestConfig()
             destConfig.forEach {
-                Log.e("-----------", "${it.key} --- ${it.value}")
                 if (it.value.isFragment) {
                     val destination = fragmentNavigator.createDestination()
                     destination.className = it.value.className
                     destination.id = it.value.id
                     destination.addDeepLink(it.value.pageUrl)
-
+                    //添加节点
                     navGraph.addDestination(destination)
                 } else {
                     val destination = activityNavigator.createDestination()
@@ -50,6 +54,7 @@ class NavGraphBuilder {
                     navGraph.startDestination = it.value.id
                 }
             }
+            //设置新的节点集合
             navController.graph = navGraph
         }
 
