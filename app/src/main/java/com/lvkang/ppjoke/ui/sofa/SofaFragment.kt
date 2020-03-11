@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.R
+import com.lvkang.ppjoke.utils.loe
 
 /**
  * @name ppjoke
@@ -22,6 +23,7 @@ class SofaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        loe("onCreateView", "SofaFragment")
         return inflater.inflate(R.layout.fragment_sofa, container, false)
     }
 }

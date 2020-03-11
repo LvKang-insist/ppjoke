@@ -8,7 +8,9 @@ package com.lvkang.ppjoke.model
  * @description
  */
 data class BottomBar(
+    //被选中的颜色
     val activeColor: String,
+    //默认的颜色
     val inActiveColor: String,
     //默认选中的 tabId
     val selectTab: Int,
@@ -16,6 +18,7 @@ data class BottomBar(
 )
 
 data class Tab(
+    //是否可用
     val enable: Boolean,
     val index: Int,
     val pageUrl: String,

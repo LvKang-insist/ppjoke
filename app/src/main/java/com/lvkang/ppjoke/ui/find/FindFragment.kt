@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.R
+import com.lvkang.ppjoke.utils.loe
 
 /**
  * @name ppjoke
@@ -22,6 +23,7 @@ class FindFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        loe("onCreateView", "FindFragment")
         return inflater.inflate(R.layout.fragment_find, container, false)
     }
 }

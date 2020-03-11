@@ -39,17 +39,18 @@ class AppBottomBar : BottomNavigationView {
         val bottomBar = AppConfig.getBottomBar()
         val tabs = bottomBar.tabs
 
+        //二位数组，用来定义底部按钮在选中或者未被选中时两种状态的颜色
         val states = Array(2) { intArrayOf() }
         states[0] = intArrayOf(android.R.attr.state_selected)
         states[1] = intArrayOf()
         val colors = intArrayOf(
             //被选中的颜色
-            Color.parseColor(bottomBar.activeColor),
+            Color.parseColor("#ff0000"),
             //按钮默认的颜色
             Color.parseColor(bottomBar.inActiveColor)
         )
         val colorStateList = ColorStateList(states, colors)
-
+        //设置颜色
         itemTextColor = colorStateList
         itemIconTintList = colorStateList
 
@@ -67,9 +68,10 @@ class AppBottomBar : BottomNavigationView {
             if (itemId < 0) {
                 return
             }
-            val item = menu.add(0,itemId, tab.index, tab.title)
+            val item = menu.add(0, itemId, tab.index, tab.title)
             item?.setIcon(icons[tab.index])
         }
+        //按钮 Icon 设置大小
         tabs.forEach {
             val menuView = getChildAt(0) as BottomNavigationMenuView
             val itemView = menuView.getChildAt(it.index) as BottomNavigationItemView

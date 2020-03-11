@@ -2,11 +2,13 @@ package com.lvkang.ppjoke.utils
 
 import android.content.ComponentName
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.FragmentNavigator
+import com.lvkang.ppjoke.ui.FixFragmentNavigator
 
 /**
  * @name ppjoke
@@ -17,7 +19,7 @@ import androidx.navigation.fragment.FragmentNavigator
  */
 class NavGraphBuilder {
     companion object {
-        fun build(navController: NavController) {
+        fun build(navController: NavController, activity: FragmentActivity, containerId: Int) {
 
             val provider = navController.navigatorProvider
 
@@ -25,9 +27,14 @@ class NavGraphBuilder {
             val navGraph = NavGraph(NavGraphNavigator(provider))
 
             //获取已经注册的导航
-            val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
-            val activityNavigator = provider.getNavigator(ActivityNavigator::class.java)
+//            val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
+            //使用自定义的导航器
+            val fragmentNavigator =
+                FixFragmentNavigator(activity, activity.supportFragmentManager, containerId)
+            //添加自定义的导航器
+            provider.addNavigator(fragmentNavigator)
 
+            val activityNavigator = provider.getNavigator(ActivityNavigator::class.java)
             val destConfig = AppConfig.getDestConfig()
             destConfig.forEach {
                 if (it.value.isFragment) {
@@ -50,6 +57,7 @@ class NavGraphBuilder {
                     navGraph.addDestination(destination)
                 }
 
+                //如果是默认的启动页
                 if (it.value.asStarter) {
                     navGraph.startDestination = it.value.id
                 }

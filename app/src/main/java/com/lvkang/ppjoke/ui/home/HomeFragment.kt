@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.R
+import com.lvkang.ppjoke.utils.loe
 
 /**
  * @name ppjoke
@@ -22,12 +23,12 @@ import com.lvkang.ppjoke.R
 class HomeFragment : Fragment() {
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        loe("onCreateView", "HomeFragment")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val mTvHome = view.findViewById<TextView>(R.id.text_home)

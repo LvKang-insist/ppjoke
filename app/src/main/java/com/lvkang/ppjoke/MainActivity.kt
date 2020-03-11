@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.lvkang.ppjoke.ui.view.AppBottomBar
@@ -23,10 +24,12 @@ class MainActivity : AppCompatActivity() {
 
         val bottomView: AppBottomBar = findViewById(R.id.nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        navController = fragment!!.findNavController()
 
-        NavigationUI.setupWithNavController(bottomView, navController)
-        NavGraphBuilder.build(navController)
+        NavigationUI.setupWithNavController(bottomView, navController!!)
+
+        NavGraphBuilder.build(navController!!, this, fragment.id)
 
         //AppBottomBar的点击事件 和 navController 关联起来
         bottomView.setOnNavigationItemSelectedListener(this::onNavItemSelected)
