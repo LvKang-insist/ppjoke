@@ -1,22 +1,17 @@
 package com.lvkang.libnavcompiler
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
 import com.google.auto.service.AutoService
+import com.google.gson.Gson
 import com.lvkang.libnavannotation.ActivityDestination
 import com.lvkang.libnavannotation.FragmentDestination
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStreamWriter
-import java.lang.Math.abs
-import java.util.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 import javax.tools.StandardLocation
+import kotlin.collections.HashMap
 
 
 /**
@@ -67,7 +62,7 @@ class NavProcessor : AbstractProcessor() {
 
         if (fragmentDestination.isNotEmpty() || activityDestination.isNotEmpty()) {
 
-            val destMap = hashMapOf<String?, JSONObject?>()
+            val destMap = hashMapOf<String?, HashMap<String, Any?>?>()
             //分别处理 FragmentDestination 和 ActivityDestination 注解类型
             //并收集到 destMap 中，以此就能记录下所有的页面信息了
             handleDestination(fragmentDestination, FragmentDestination::class.java, destMap)
@@ -95,7 +90,7 @@ class NavProcessor : AbstractProcessor() {
                 File(file, OUTPUT_FILE_NAME).let { newFile ->
                     if (newFile.exists()) newFile.delete()
                     newFile.createNewFile()
-                    val content = JSON.toJSONString(destMap)
+                    val content = Gson().toJson(destMap)
                     newFile.outputStream().bufferedWriter().use {
                         it.write(content)
                         it.flush()
@@ -109,7 +104,7 @@ class NavProcessor : AbstractProcessor() {
     private fun handleDestination(
         elements: Set<Element>,
         clazz: Class<out Annotation>,
-        destMap: HashMap<String?, JSONObject?>
+        destMap: HashMap<String?, HashMap<String, Any?>?>
     ) {
         for (element in elements) {
             // TypeElement 是 Element 的一种
@@ -140,14 +135,14 @@ class NavProcessor : AbstractProcessor() {
             if (destMap.containsKey(pageUrl)) {
                 message?.printMessage(Diagnostic.Kind.ERROR, "不同的页面不允许使用相同的pageUrl $clazzName")
             } else {
-                val `object` = JSONObject()
-                `object`["id"] = id
-                `object`["needLogin"] = needLogin
-                `object`["asStarter"] = asStarter
-                `object`["pageUrl"] = pageUrl
-                `object`["className"] = clazzName
-                `object`["isFragment"] = isFragment
-                destMap[pageUrl] = `object`
+                val data = HashMap<String, Any?>()
+                data["id"] = id
+                data["needLogin"] = needLogin
+                data["asStarter"] = asStarter
+                data["pageUrl"] = pageUrl
+                data["className"] = clazzName
+                data["isFragment"] = isFragment
+                destMap[pageUrl] = data
             }
         }
     }

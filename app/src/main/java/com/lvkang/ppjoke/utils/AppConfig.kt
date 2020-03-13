@@ -1,10 +1,11 @@
 package com.lvkang.ppjoke.utils
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.TypeReference
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lvkang.ppjoke.model.BottomBar
 import com.lvkang.ppjoke.model.Destination
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * @name ppjoke
@@ -26,8 +27,10 @@ class AppConfig {
          */
         fun getBottomBar(): BottomBar {
             if (mBottomBar == null) {
-                mBottomBar =
-                    JSON.parseObject(parseFile("main_tabs_config.json"), BottomBar::class.java)
+                mBottomBar = Gson().fromJson<BottomBar>(
+                    parseFile("main_tabs_config.json"),
+                    BottomBar::class.java
+                )
             }
             return mBottomBar!!
         }
@@ -38,8 +41,10 @@ class AppConfig {
          */
         fun getDestConfig(): Map<String, Destination> {
             if (mDestConfig.isNullOrEmpty()) {
-                mDestConfig = JSON.parseObject(parseFile("destination.json"),
-                    object : TypeReference<HashMap<String, Destination>>() {})
+                mDestConfig = Gson().fromJson<HashMap<String, Destination>>(
+                    parseFile("destination.json"),
+                    object : TypeToken<HashMap<String, Destination>>() {}.type
+                )
             }
             return mDestConfig!!
         }

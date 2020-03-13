@@ -10,7 +10,7 @@ dependencies {
     implementation project(':libnavannotation')
     implementation "androidx.core:core-ktx:1.2.0"
 
-    implementation "com.alibaba:fastjson:1.2.59"
+    implementation 'com.google.code.gson:gson:2.8.6'
     //noinspection AnnotationProcessorOnCompilePath
     implementation 'com.google.auto.service:auto-service:1.0-rc6'
 

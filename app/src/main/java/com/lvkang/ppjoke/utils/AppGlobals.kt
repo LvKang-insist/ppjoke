@@ -2,7 +2,6 @@ package com.lvkang.ppjoke.utils
 
 import android.annotation.SuppressLint
 import android.app.Application
-import com.alibaba.fastjson.TypeReference
 
 /**
  * @name ppjoke

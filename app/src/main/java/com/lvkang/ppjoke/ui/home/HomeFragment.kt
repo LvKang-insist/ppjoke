@@ -1,6 +1,7 @@
 package com.lvkang.ppjoke.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
         mTvHome.setOnClickListener {
             GetRequest<String>("https://www.baidu.com").execute(object : JsonCallback<String>() {
                 override fun onSuccess(response: ApiResponse<String>) {
-                    toast(response.message!!)
+                    Toast.makeText(context, response.body!!, Toast.LENGTH_LONG).show()
                 }
 
                 override fun onError(response: ApiResponse<String>) {

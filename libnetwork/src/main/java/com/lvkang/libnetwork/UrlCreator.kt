@@ -14,6 +14,7 @@ class UrlCreator {
     companion object {
         fun createUrlFromParams(url: String, params: Map<String, Any>): String {
             val builder = StringBuilder()
+            if (params.isEmpty()) return url
             builder.append(url)
             if (url.indexOf('?') > 0 || url.indexOf('&') > 0) {
                 builder.append('&')

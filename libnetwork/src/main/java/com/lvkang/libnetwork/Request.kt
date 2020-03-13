@@ -2,6 +2,8 @@
 
 package com.lvkang.libnetwork
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.IntDef
 import okhttp3.Call
@@ -91,7 +93,9 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
             override fun onResponse(call: Call, response: Response) {
                 val apiResponse = parseResponse(response, callback)
                 if (apiResponse.success) {
-                    callback.onSuccess(apiResponse)
+                    Handler(Looper.getMainLooper()).post {
+                        callback.onSuccess(apiResponse)
+                    }
                 } else {
                     callback.onError(apiResponse)
                 }
@@ -109,7 +113,7 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
         val result = ApiResponse<T>()
         val content = response.body?.string()
         if (success) {
-            val mConvert = ApiService.mConvert!!
+            val mConvert = ApiService.mConvert ?: JsonConvert<T>()
 
             when {
                 callback != null -> {
@@ -125,7 +129,9 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
                 mClazz != null -> {
                     result.body = mConvert.convert(content!!, mClazz!!) as T
                 }
-                else -> Log.e("request", "parseResponse无法解析")
+                else -> {
+                    result.body = content as T
+                }
             }
         } else {
             message = content
