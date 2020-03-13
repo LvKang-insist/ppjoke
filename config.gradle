@@ -10,33 +10,11 @@ ext {
     ]
 
     depsVersion = [
-            appcompat       : '1.1.0',
-            corektx         : '1.2.0',
-            material        : '1.1.0',
-            navigationF     : '2.2.1',
-            navigationU     : '2.2.1',
-            navigationFktx  : '2.2.1',
-            navigationUktx  : '2.2.1',
-            lifecycle       : '2.2.0',
-            constraintlayout: '1.1.3',
-            fastjson        : '1.2.59',
-            autoservice     : '1.0-rc6',
+            appcompat          : '1.1.0',
     ]
 
-    //第三方库
     depsLibs = [
-            appcompat       : "androidx.appcompat:appcompat:${depsVersion.appcompat}",
-            corektx         : "androidx.core:core-ktx:${depsVersion.corektx}",
-            material        : "com.google.android.material:material:${depsVersion.material}",
-            navigationF     : "androidx.navigation:navigation-fragment:${depsVersion.navigationF}",
-            navigationU     : "androidx.navigation:navigation-ui:${depsVersion.navigationU}",
-            navigationFktx  : "androidx.navigation:navigation-fragment-ktx:${depsVersion.navigationFktx}",
-            navigationUktx  : "androidx.navigation:navigation-ui-ktx:${depsVersion.navigationUktx}",
-            lifecycle       : "androidx.lifecycle:lifecycle-extensions:${depsVersion.lifecycle}",
-            constraintlayout: "androidx.constraintlayout:constraintlayout:${depsVersion.constraintlayout}",
-            fastjson        : "com.alibaba:fastjson:${depsVersion.fastjson}",
-            autoservice     : "com.google.auto.service:auto-service:${depsVersion.autoservice}",
-
+            appcompat: "androidx.appcompat:appcompat:${depsVersion.appcompat}",
     ]
 
 

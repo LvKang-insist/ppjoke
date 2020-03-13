@@ -8,11 +8,13 @@ tasks.withType(JavaCompile) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libnavannotation')
+    implementation "androidx.core:core-ktx:1.2.0"
 
-    implementation rootProject.depsLibs.fastjson
+    implementation "com.alibaba:fastjson:1.2.59"
+    //noinspection AnnotationProcessorOnCompilePath
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+
     //auto service
-    implementation  rootProject.depsLibs.autoservice
-    implementation rootProject.depsLibs.corektx
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
 }
 

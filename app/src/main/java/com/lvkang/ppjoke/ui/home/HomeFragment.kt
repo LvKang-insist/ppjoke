@@ -8,8 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lvkang.libnavannotation.FragmentDestination
+import com.lvkang.libnetwork.ApiResponse
+import com.lvkang.libnetwork.GetRequest
+import com.lvkang.libnetwork.JsonCallback
 import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.utils.loe
+import com.lvkang.ppjoke.utils.toast
 
 /**
  * @name ppjoke
@@ -34,7 +38,15 @@ class HomeFragment : Fragment() {
         val mTvHome = view.findViewById<TextView>(R.id.text_home)
 
         mTvHome.setOnClickListener {
-            Toast.makeText(context, "首頁", Toast.LENGTH_LONG).show()
+            GetRequest<String>("https://www.baidu.com").execute(object : JsonCallback<String>() {
+                override fun onSuccess(response: ApiResponse<String>) {
+                    toast(response.message!!)
+                }
+
+                override fun onError(response: ApiResponse<String>) {
+                    toast("${response.status}")
+                }
+            })
         }
 
         return view

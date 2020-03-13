@@ -69,7 +69,7 @@ class FixFragmentNavigator(
             //隐藏正在显示的页面，准备显示新的界面
             ft.hide(fragment)
         }
-        var frag: Fragment? = null
+        var frag: Fragment?
 
         val tag = destination.id.toString()
         //获取要显示的 fragment
@@ -109,7 +109,7 @@ class FixFragmentNavigator(
                 // remove it from the back stack and put our replacement
                 // on the back stack in its place
                 mManager.popBackStack(
-                    generateBackStackName(mBackStack.size, mBackStack.peekLast()),
+                    generateBackStackName(mBackStack.size, mBackStack.peekLast()!!),
                     FragmentManager.POP_BACK_STACK_INCLUSIVE
                 )
                 ft.addToBackStack(generateBackStackName(mBackStack.size, destId))
