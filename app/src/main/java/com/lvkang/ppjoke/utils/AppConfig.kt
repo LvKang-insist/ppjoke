@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lvkang.ppjoke.model.BottomBar
 import com.lvkang.ppjoke.model.Destination
-import java.util.*
 import kotlin.collections.HashMap
 
 /**
@@ -53,7 +52,7 @@ class AppConfig {
          * 获取文件内容
          */
         private fun parseFile(fileName: String): String {
-            val assets = AppGlobals.getApplication().resources.assets
+            val assets = com.lvkang.libcommon.AppGlobals.getApplication().resources.assets
             assets.open(fileName).use {
                 return it.bufferedReader().readText()
             }

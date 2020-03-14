@@ -11,5 +11,5 @@ import android.widget.Toast
  */
 
 fun toast(message: String) {
-    Toast.makeText(AppGlobals.getApplication(), message, Toast.LENGTH_LONG).show()
+    Toast.makeText(com.lvkang.libcommon.AppGlobals.getApplication(), message, Toast.LENGTH_LONG).show()
 }

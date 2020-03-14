@@ -1,4 +1,4 @@
-package com.lvkang.ppjoke.utils
+package com.lvkang.libcommon
 
 import android.annotation.SuppressLint
 import android.app.Application

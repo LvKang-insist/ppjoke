@@ -1,13 +1,11 @@
 package com.lvkang.ppjoke.utils
 
 import android.content.ComponentName
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
-import androidx.navigation.fragment.FragmentNavigator
 import com.lvkang.ppjoke.ui.FixFragmentNavigator
 
 /**
@@ -50,7 +48,7 @@ class NavGraphBuilder {
                     destination.addDeepLink(it.value.pageUrl)
                     destination.setComponentName(
                         ComponentName(
-                            AppGlobals.getApplication().packageName,
+                            com.lvkang.libcommon.AppGlobals.getApplication().packageName,
                             it.value.className
                         )
                     )

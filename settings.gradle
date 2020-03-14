@@ -1,3 +1,4 @@
 include ':app', ':libnavannotation', ':libnavcompiler'
 rootProject.name='ppjoke'
 include ':libnetwork'
+include ':libcommon'
