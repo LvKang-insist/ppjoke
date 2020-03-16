@@ -13,7 +13,7 @@ import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.utils.alert
 import com.lvkang.ppjoke.utils.download.DownLoadLaunch
 import com.lvkang.ppjoke.utils.download.DownloadModel
-import com.lvkang.ppjoke.utils.download.onStateListener
+import com.lvkang.ppjoke.utils.download.OnStateListener
 import com.lvkang.ppjoke.utils.loe
 import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.coroutines.launch
@@ -51,7 +51,7 @@ class MyFragment : Fragment() {
         }
 
         DownLoadLaunch.create(this, "https://kotlinlang.org/docs/kotlin-docs.pdf",
-            "Kotlin-Docs.pdf", object : onStateListener {
+            "Kotlin-Docs.pdf", object : OnStateListener {
                 override fun start() {
                     Toast.makeText(context, "开始下载", Toast.LENGTH_LONG).show()
                 }
@@ -61,7 +61,7 @@ class MyFragment : Fragment() {
                 }
 
                 override fun error(throwable: Throwable) {
-                    Toast.makeText(context, "下在出错：${throwable.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "下载出错：${throwable.message}", Toast.LENGTH_LONG).show()
                 }
 
                 override fun donel(file: File) {

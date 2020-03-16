@@ -54,11 +54,6 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.2.0'
 
-//    implementation 'androidx.core:core-ktx:1.1.0'
-//    implementation "androidx.activity:activity-ktx:1.0.0"
-//
-//    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0-rc03"
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03"
 
     implementation project(':libnavannotation')
     kapt project(":libnavcompiler")
