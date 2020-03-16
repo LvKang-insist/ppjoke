@@ -3,20 +3,18 @@ package com.lvkang.ppjoke
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
-import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.lvkang.ppjoke.ui.view.AppBottomBar
 import com.lvkang.ppjoke.utils.NavGraphBuilder
 
 class MainActivity : AppCompatActivity() {
 
     private var navController: NavController? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
