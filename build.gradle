@@ -11,6 +11,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/jcenter'}
     }
     dependencies {
+        //noinspection GradleDependency
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong

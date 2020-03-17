@@ -14,7 +14,6 @@ import com.lvkang.libnetwork.GetRequest
 import com.lvkang.libnetwork.JsonCallback
 import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.utils.loe
-import com.lvkang.ppjoke.utils.toast
 
 /**
  * @name ppjoke
@@ -45,7 +44,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onError(response: ApiResponse<String>) {
-                    toast("${response.status}")
+
                 }
             })
         }

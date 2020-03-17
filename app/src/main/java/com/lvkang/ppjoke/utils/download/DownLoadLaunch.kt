@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-interface onStateListener {
+interface OnStateListener {
     fun start()
     fun process(value: Int)
     fun error(throwable: Throwable)
@@ -22,7 +22,7 @@ object DownLoadLaunch {
         owner: LifecycleOwner,
         url: String,
         fileName: String,
-        stateListener: onStateListener
+        stateListener: OnStateListener
     ) {
         mDownloadModel.downloadStateLiveData.observe(owner) { status ->
             when (status) {
