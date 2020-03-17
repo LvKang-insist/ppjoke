@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="Feed" />
+
+        <import type="com.lvkang.ppjoke.model.Feed" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_10">
+
+
+        <!--        作者区域-->
+        <include
+            layout="@layout/layout_feed_author"
+            app:user="@{feed.author}" />
+
+        <!--        文字区域-->
+        <include
+            layout="@layout/layout_feed_text"
+            app:feedText="@{feed.feeds_text}" />
+
+        <!--        图片，视频区域-->
+
+        <!--        标签区域-->
+        <include
+            layout="@layout/layout_feed_tag"
+            app:tagText="@{feed.activityText}" />
+
+        <!--       内容区域 -->
+        <include
+            layout="@layout/layout_feed_top_comment"
+            app:comment="@{feed.topComment}" />
+
+        <!--        互动区域-->
+        <include
+            layout="@layout/layout_feed_interaction"
+            app:feed="@{feed}" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
