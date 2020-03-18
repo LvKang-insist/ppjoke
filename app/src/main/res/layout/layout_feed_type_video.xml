@@ -27,7 +27,7 @@
             layout="@layout/layout_feed_text"
             app:feedText="@{feed.feeds_text}" />
 
-        <!-- 图片-->
+        <!-- 视频区域-->
 
         <com.lvkang.ppjoke.ui.view.PPImageView
             android:id="@+id/feed_iamge"

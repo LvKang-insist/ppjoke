@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--    高斯模糊-->
+    <com.lvkang.ppjoke.ui.view.PPImageView
+        android:id="@+id/blur_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/color_theme_10" />
+
+    <!--    真正播放视频的View，会动态的添加到这里-->
+
+    <com.lvkang.ppjoke.ui.view.ListPlayerView
+        android:id="@+id/list_player_view"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_weight="wrap_content" />
+
+    <!--    封面-->
+    <com.lvkang.ppjoke.ui.view.PPImageView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/play_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/icon_video_play" />
+
+    <!--    视频播放时的进度条-->
+    <!--那个视频播放，就将播放器和进度条添加到对应的视图上
+    而不是直接写死在布局文件中
+    列表中全局只有一个进度条和播放器-->
+
+    <!--    加载时的动画,视频缓冲的时候会出现-->
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/buffer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/color_theme_10"
+        android:visibility="gone" />
+
+
+</merge>
