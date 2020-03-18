@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="comment"
+            type="com.lvkang.ppjoke.model.Comment" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.lvkang.ppjoke.utils.StringConvert" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:background="@color/color_gray2"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_60"
+            android:layout_gravity="right|top"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:src="@drawable/icon_god_comment2"
+            tools:ignore="RtlHardcoded" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.lvkang.ppjoke.ui.view.PPImageView
+                    android:id="@+id/avatar"
+                    image_url="@{comment.author.avatar}"
+                    isCircle="@{true}"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    tools:src="@drawable/ic_launcher_foreground" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:text="@{comment.author.name}"
+                    android:textColor="@color/color_3d3"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="神秘Jetpack" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1px"
+                    android:layout_weight="1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{comment.ugc.likeCount >0 ?StringConvert.Companion.convertFeedUgc(comment.ugc.likeCount):null}"
+                    android:textColor="@{comment.ugc.hasLiked ?@color/color_theme:@color/color_3d3}"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="1000" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:padding="2dp"
+                    android:src="@{comment.ugc.hasLiked?@drawable/icon_cell_liked:@drawable/icon_cell_like}"
+                    tools:src="@drawable/icon_cell_like" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:lines="2"
+                android:text="@{comment.commentText}"
+                android:textColor="@color/color_3d3"
+                android:textSize="@dimen/sp_14"
+                android:visibility="@{TextUtils.isEmpty(comment.commentText)?View.GONE:View.VISIBLE}"
+                tools:ignore="RtlHardcoded"
+                tools:text="神秘Jetpack神秘Jetpack神秘Jetpack神秘Jetpack" />
+
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/dp_10">
+
+                <com.lvkang.ppjoke.ui.view.PPImageView
+                    image_url="@{comment.imageUrl}"
+                    isCircle="@{false}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/color_theme_10"
+                    tools:src="@mipmap/ic_launcher" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:visibility="@{comment.commentType == 2?View.VISIBLE:View.GONE}"
+                    tools:src="@drawable/icon_video_play" />
+
+            </FrameLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </FrameLayout>
+</layout>

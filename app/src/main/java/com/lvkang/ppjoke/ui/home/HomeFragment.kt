@@ -28,26 +28,10 @@ class HomeFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         loe("onCreateView", "HomeFragment")
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
-        val mTvHome = view.findViewById<TextView>(R.id.text_home)
-
-        mTvHome.setOnClickListener {
-            GetRequest<String>("https://www.baidu.com").execute(object : JsonCallback<String>() {
-                override fun onSuccess(response: ApiResponse<String>) {
-                    Toast.makeText(context, response.body!!, Toast.LENGTH_LONG).show()
-                }
-
-                override fun onError(response: ApiResponse<String>) {
-
-                }
-            })
-        }
 
         return view
     }

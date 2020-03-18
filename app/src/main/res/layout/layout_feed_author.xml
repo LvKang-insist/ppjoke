@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><!--作者信息-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.lvkang.ppjoke.model.User" />
+        <!--声明一个变量，type是类型，name 就是名字了-->
+        <variable
+            name="user"
+            type="User" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
+        <com.lvkang.ppjoke.ui.view.PPImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            app:image_url="@{user.avatar}"
+            app:isCircle="@{true}"
+            tools:src="@mipmap/ic_launcher_round" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@{user.name}"
+            android:textColor="@color/color_333"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="user_name" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

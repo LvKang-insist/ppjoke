@@ -28,6 +28,10 @@ android {
     packagingOptions {
         exclude 'META-INF/proguard/coroutines.pro'
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -55,8 +59,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.2.0'
 
 
-    implementation project(':libnavannotation')
-    kapt project(":libnavcompiler")
     implementation project(path: ':libnetwork')
     implementation project(path: ':libcommon')
+    implementation project(':libnavannotation')
+    kapt project(":libnavcompiler")
 }
