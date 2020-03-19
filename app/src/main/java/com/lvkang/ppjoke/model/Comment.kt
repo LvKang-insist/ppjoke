@@ -1,5 +1,6 @@
 package com.lvkang.ppjoke.model
 
+import androidx.annotation.Nullable
 import java.io.Serializable
 
 /**
@@ -41,4 +42,14 @@ class Comment : Serializable {
     var hasLiked = false
     var author: User? = null
     var ugc: Ugc? = null
+
+    override fun equals(@Nullable other: Any?): Boolean {
+        if (other == null || other !is Comment)
+            return false
+        val newComment = other as Comment?
+        return (likeCount == newComment!!.likeCount
+                && hasLiked == newComment.hasLiked
+                && author != null && author == newComment.author
+                && ugc != null && ugc == newComment.ugc)
+    }
 }

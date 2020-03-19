@@ -1,19 +1,17 @@
 package com.lvkang.ppjoke.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.lvkang.libnavannotation.FragmentDestination
-import com.lvkang.libnetwork.ApiResponse
-import com.lvkang.libnetwork.GetRequest
-import com.lvkang.libnetwork.JsonCallback
 import com.lvkang.ppjoke.R
+import com.lvkang.ppjoke.model.Feed
+import com.lvkang.ppjoke.ui.AbsListFragment
 import com.lvkang.ppjoke.utils.loe
+import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
  * @name ppjoke
@@ -24,8 +22,7 @@ import com.lvkang.ppjoke.utils.loe
  */
 
 @FragmentDestination(pageUrl = "main/tabs/home", asStarter = true)
-class HomeFragment : Fragment() {
-
+class HomeFragment : AbsListFragment<Feed>() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -35,4 +32,25 @@ class HomeFragment : Fragment() {
 
         return view
     }
+
+    /**
+     * 设置 Adapter
+     */
+    override fun getAdapter(): PagedListAdapter<Feed, RecyclerView.ViewHolder> {
+        TODO()
+    }
+
+    /**
+     * 刷新监听
+     */
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+    }
+
+    /**
+     * 加载监听
+     */
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+    }
+
+
 }

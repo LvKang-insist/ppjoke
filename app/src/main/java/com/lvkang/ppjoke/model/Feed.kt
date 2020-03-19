@@ -1,11 +1,18 @@
 package com.lvkang.ppjoke.model
 
+import android.text.TextUtils
 import java.io.Serializable
 
 /**
  * @author 345
  */
 class Feed : Serializable {
+
+    companion object {
+        const val TYPE_IMAGE: Int = 1
+        const val TYPE_VIDEO: Int = 2
+    }
+
     /**
      * id : 364
      * itemId : 6739143063064549000
@@ -38,4 +45,25 @@ class Feed : Serializable {
     var author: User? = null
     var topComment: Comment? = null
     var ugc: Ugc? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other is Feed) return false
+        val newFeed = other as Feed
+        return id == newFeed.id
+                && itemId == newFeed.itemId
+                && itemType == newFeed.itemType
+                && createTime == newFeed.createTime
+                && duration == newFeed.duration
+                && TextUtils.equals(feeds_text, newFeed.feeds_text)
+                && authorId == newFeed.authorId
+                && TextUtils.equals(activityIcon, newFeed.activityIcon)
+                && TextUtils.equals(activityText, newFeed.activityText)
+                && width == newFeed.width
+                && height == newFeed.height
+                && TextUtils.equals(url, newFeed.url)
+                && TextUtils.equals(cover, newFeed.cover)
+                && (author != null && author!!.equals(newFeed.author))
+                && (topComment != null && topComment!!.equals(newFeed.topComment))
+                && (ugc != null && ugc!!.equals(newFeed.ugc));
+    }
 }

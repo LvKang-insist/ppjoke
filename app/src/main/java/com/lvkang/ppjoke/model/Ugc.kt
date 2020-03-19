@@ -1,5 +1,6 @@
 package com.lvkang.ppjoke.model
 
+import androidx.annotation.Nullable
 import java.io.Serializable
 
 /**
@@ -20,4 +21,17 @@ class Ugc : Serializable {
     var hasFavorite = false
     var hasdiss = false
     var hasLiked = false
+
+    override fun equals(@Nullable other: Any?): Boolean {
+        if (other == null || other !is Ugc)
+            return false
+        val newUgc = other as Ugc?
+        return (likeCount == newUgc!!.likeCount
+                && shareCount == newUgc.shareCount
+                && commentCount == newUgc.commentCount
+                && hasFavorite == newUgc.hasFavorite
+                && hasLiked == newUgc.hasLiked
+                && hasdiss == newUgc.hasdiss)
+    }
+
 }
