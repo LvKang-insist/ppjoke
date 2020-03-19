@@ -76,7 +76,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{comment.ugc.likeCount >0 ?StringConvert.Companion.convertFeedUgc(comment.ugc.likeCount):null}"
+                    android:text="@{comment.ugc.likeCount >0 ?StringConvert.convertFeedUgc(comment.ugc.likeCount):null}"
                     android:textColor="@{comment.ugc.hasLiked ?@color/color_theme:@color/color_3d3}"
                     android:textSize="@dimen/sp_12"
                     tools:text="1000" />

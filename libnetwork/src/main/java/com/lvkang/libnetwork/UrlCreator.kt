@@ -12,7 +12,7 @@ import java.net.URLEncoder
  */
 class UrlCreator {
     companion object {
-        fun createUrlFromParams(url: String, params: Map<String, Any>): String {
+        fun createUrlFromParams(url: String, params: Map<String, Any?>): String {
             val builder = StringBuilder()
             if (params.isEmpty()) return url
             builder.append(url)

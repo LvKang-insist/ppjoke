@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,6 +15,7 @@ import com.lvkang.ppjoke.model.Feed
 
 class FeedAdapter(mContext: Context, val mCategory: String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(ItemCallBack()) {
+
     var inflater: LayoutInflater? = null
 
     init {
@@ -42,13 +44,16 @@ class FeedAdapter(mContext: Context, val mCategory: String) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var binding: ViewDataBinding? = null
-        if (viewType == Feed.TYPE_IMAGE) {
-            binding = LayoutFeedTypeImageBinding.inflate(inflater)
+//        var binding: ViewDataBinding? = null
+        return if (viewType == Feed.TYPE_IMAGE) {
+            val binding  =DataBindingUtil.inflate<LayoutFeedTypeImageBinding>(inflater!!,viewType,parent,false)
+            ViewHolder(binding!!.root, binding, mCategory)
         } else {
-            binding = LayoutFeedTypeVideoBinding.inflate(inflater)
+            val binding  =DataBindingUtil.inflate<LayoutFeedTypeVideoBinding>(inflater!!,viewType,parent,false)
+            ViewHolder(binding!!.root, binding, mCategory)
         }
-        return ViewHolder(binding!!.root, binding, mCategory)
+
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

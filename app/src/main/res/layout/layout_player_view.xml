@@ -18,7 +18,7 @@
         android:id="@+id/list_player_view"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_10"
-        android:layout_weight="wrap_content" />
+        android:layout_width="wrap_content" />
 
     <!--    封面-->
     <com.lvkang.ppjoke.ui.view.PPImageView

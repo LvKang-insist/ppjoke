@@ -8,12 +8,13 @@ package com.lvkang.ppjoke.utils
  * @description
  */
 
-class StringConvert {
-    companion object {
-        fun convertFeedUgc(count: Int): String {
-            if (count < 10000)
-                return count.toString()
-            return "${count / 10000}万"
-        }
+object StringConvert {
+
+    @JvmStatic
+    fun convertFeedUgc(count: Int): String {
+        if (count < 10000)
+            return count.toString()
+        return "${count / 10000}万"
     }
+
 }

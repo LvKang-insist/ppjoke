@@ -2,7 +2,9 @@
 
 package com.lvkang.libnetwork
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
+import android.util.Log
 import androidx.annotation.IntDef
 import androidx.arch.core.executor.ArchTaskExecutor
 import com.lvkang.libnetwork.cache.CacheManager
@@ -21,13 +23,12 @@ import java.lang.reflect.Type
  * @time 2020/3/12 21:35
  * @description
  */
-abstract class Request<T, R : Request<T, R>>(mUrl: String) {
+abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneable {
     private val headers = mutableMapOf<String, String>()
-    protected val params = mutableMapOf<String, Any>()
+    protected val params = mutableMapOf<String, Any?>()
     private var mType: Type? = null
     private var mClazz: Class<*>? = null
 
-    private var mUrl: String? = null
 
     private var cacheKey: String? = null
     private var mCacheStartegy: Int = NET_ONLY;
@@ -52,6 +53,7 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
         mUrl = url
     }
 
+
     /**
      * 添加头文件
      */
@@ -63,9 +65,10 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
     /**
      * value 只能为基本数据类型
      */
-    fun addParam(key: String, value: Any): R {
+    fun addParam(key: String, value: Any?): R {
+        if (value == null) return this as R
         //TYPE 是原始的基本类型，通过TYPE 就可以得到基本类型的 Class
-        val field = value.javaClass.getField("TYPE")
+        val field = value!!.javaClass.getField("TYPE")
         val clazz = field.get(null) as Class<*>
         //判断 clazz 是否为基本类型
         if (clazz.isPrimitive) {
@@ -112,6 +115,7 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
     /**
      * 异步请求
      */
+    @SuppressLint("RestrictedApi")
     fun execute(callback: JsonCallback<T>) {
         if (mCacheStartegy != NET_ONLY) {
             //异步读取缓存
@@ -163,6 +167,8 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
         val result = ApiResponse<T>()
         val content = response.body?.string()
         if (success) {
+            Log.e("url：", mUrl)
+            Log.e("-----------", content)
             val mConvert = ApiService.mConvert ?: JsonConvert<T>()
 
             when {
@@ -208,6 +214,7 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
      * 获取 key，key 由 url + 参数构成
      */
     private fun generateCacheKey(): String {
+        Log.e("---------", "------------- ${mUrl}")
         cacheKey = UrlCreator.createUrlFromParams(mUrl!!, params)
         return cacheKey!!
     }
@@ -232,6 +239,11 @@ abstract class Request<T, R : Request<T, R>>(mUrl: String) {
         for (map in headers) {
             builder.addHeader(map.key, map.value)
         }
+    }
+
+    @Throws(CloneNotSupportedException::class)// 克隆失败抛出异常
+    public override fun clone(): Request<T, R> {
+        return super.clone() as Request<T, R>
     }
 
 }
