@@ -21,8 +21,8 @@ abstract class AbsViewModel<T> : ViewModel() {
     }
 
     //PagedList数据被加载 情况的边界回调callback
-//但 不是每一次分页 都会回调这里，具体请看 ContiguousPagedList#mReceiver#onPageResult
-//deferBoundaryCallbacks
+    //但 不是每一次分页 都会回调这里，具体请看 ContiguousPagedList#mReceiver#onPageResult
+    //deferBoundaryCallbacks
     var callback: BoundaryCallback<Any> = object : BoundaryCallback<Any>() {
         override fun onZeroItemsLoaded() { //新提交的PagedList中没有数据
             boundaryPageData.postValue(false)
@@ -56,7 +56,7 @@ abstract class AbsViewModel<T> : ViewModel() {
 // .setEnablePlaceholders(false)
 // .setPrefetchDistance()
             .build()
-        pageData = LivePagedListBuilder<Any,Any>(factory, config)
+        pageData = LivePagedListBuilder<Any, Any>(factory, config)
             .setInitialLoadKey(0) //.setFetchExecutor()
             .setBoundaryCallback(callback)
             .build() as LiveData<PagedList<T>>

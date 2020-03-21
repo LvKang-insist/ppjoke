@@ -41,5 +41,4 @@ dependencies {
     implementation project(path: ':libcommon')
     implementation project(':libnavannotation')
     kapt project(":libnavcompiler")
-    annotationProcessor( "androidx.databinding:databinding-compiler:3.6.1")
 }

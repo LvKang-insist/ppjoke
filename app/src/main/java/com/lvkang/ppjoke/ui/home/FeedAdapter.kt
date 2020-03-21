@@ -9,11 +9,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.lvkang.ppjoke.model.Feed
 
-class FeedAdapter(mContext: Context, val mCategory: String) :
+class FeedAdapter(val mContext: Context, val mCategory: String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(ItemCallBack()) {
 
     var inflater: LayoutInflater? = null
@@ -36,7 +37,6 @@ class FeedAdapter(mContext: Context, val mCategory: String) :
 //         return   oldItem.equals(newItem)
             return false
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -44,16 +44,20 @@ class FeedAdapter(mContext: Context, val mCategory: String) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        var binding: ViewDataBinding? = null
-        return if (viewType == Feed.TYPE_IMAGE) {
-            val binding  =DataBindingUtil.inflate<LayoutFeedTypeImageBinding>(inflater!!,viewType,parent,false)
-            ViewHolder(binding!!.root, binding, mCategory)
+        val binding: ViewDataBinding = if (viewType == Feed.TYPE_IMAGE) {
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.layout_feed_type_image, parent,
+                false
+            )
         } else {
-            val binding  =DataBindingUtil.inflate<LayoutFeedTypeVideoBinding>(inflater!!,viewType,parent,false)
-            ViewHolder(binding!!.root, binding, mCategory)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.layout_feed_type_video, parent,
+                false
+            )
         }
-
-
+        return ViewHolder(binding.root, binding, mCategory)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

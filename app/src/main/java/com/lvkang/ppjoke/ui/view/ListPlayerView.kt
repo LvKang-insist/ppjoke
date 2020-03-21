@@ -27,12 +27,12 @@ class ListPlayerView : FrameLayout {
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : super(
         context, attributeSet, defStyleAttr
     ) {
-        var mPlayView =
+        val mPlayView =
             LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
-        bufferView = findViewById(R.id.buffer_view)
-        cover = findViewById(R.id.cover)
-        blur = findViewById(R.id.blur_background)
-        playBtn = findViewById(R.id.play_btn)
+        bufferView =mPlayView. findViewById(R.id.buffer_view)
+        cover =mPlayView. findViewById(R.id.cover)
+        blur =mPlayView. findViewById(R.id.blur_background)
+        playBtn =mPlayView. findViewById(R.id.play_btn)
     }
 
     /**

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
@@ -40,6 +41,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //数据库组件
+    implementation "android.arch.persistence.room:runtime:2.2.3"
+    implementation "androidx.room:room-ktx:2.2.5"
+    kapt "android.arch.persistence.room:compiler:2.2.3"
+
     implementation project(path: ':libcommon')
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
 }

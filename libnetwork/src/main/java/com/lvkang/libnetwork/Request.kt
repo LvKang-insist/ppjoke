@@ -67,8 +67,12 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
      */
     fun addParam(key: String, value: Any?): R {
         if (value == null) return this as R
+        if (value is String){
+            params[key] = value
+            return this as R
+        }
         //TYPE 是原始的基本类型，通过TYPE 就可以得到基本类型的 Class
-        val field = value!!.javaClass.getField("TYPE")
+        val field = value.javaClass.getField("TYPE")
         val clazz = field.get(null) as Class<*>
         //判断 clazz 是否为基本类型
         if (clazz.isPrimitive) {

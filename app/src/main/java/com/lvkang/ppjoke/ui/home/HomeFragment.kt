@@ -1,14 +1,8 @@
 package com.lvkang.ppjoke.ui.home
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lvkang.libnavannotation.FragmentDestination
-import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsListFragment
 import com.scwang.smartrefresh.layout.api.RefreshLayout

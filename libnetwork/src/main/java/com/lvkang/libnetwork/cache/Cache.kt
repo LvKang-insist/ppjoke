@@ -1,5 +1,8 @@
 package com.lvkang.libnetwork.cache
 
+
+
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -16,8 +19,9 @@ import java.io.Serializable
 class Cache : Serializable {
 
     //主键约束，保证 key 的唯一性
+    @NonNull
     @PrimaryKey
-    var key: String? = null
+    var key: String? = ""
 
     @ColumnInfo
     var data:ByteArray? = null

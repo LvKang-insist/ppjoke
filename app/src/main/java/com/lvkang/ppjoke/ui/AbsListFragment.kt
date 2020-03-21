@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -62,16 +63,16 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
 
         afterCreateView()
 
-        init(binding!!.root,null)
+        init(binding!!.root, null)
         return binding?.root
     }
 
     abstract fun afterCreateView()
 
-     fun init(view: View, savedInstanceState: Bundle?) {
+    private fun init(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val type = javaClass.genericSuperclass as ParameterizedType
-        var arguments = type.actualTypeArguments
+        val arguments = type.actualTypeArguments
         if (arguments.size > 1) {
             val argument = arguments[1]
             val modeClazz = (argument as Class<*>).asSubclass(AbsViewModel::class.java)
@@ -82,6 +83,7 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
                 .observe(viewLifecycleOwner,
                     object : Observer<PagedList<*>> {
                         override fun onChanged(t: PagedList<*>?) {
+                            Toast.makeText(binding!!.root.context, "${t!!.size}", Toast.LENGTH_LONG).show()
                             mAdapter!!.submitList(t as PagedList<T>?)
                         }
                     })
