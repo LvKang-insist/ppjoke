@@ -214,8 +214,7 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
      * 获取 key，key 由 url + 参数构成
      */
     private fun generateCacheKey(): String {
-        Log.e("---------", "------------- ${mUrl}")
-        cacheKey = UrlCreator.createUrlFromParams(mUrl!!, params)
+        cacheKey = UrlCreator.createUrlFromParams(mUrl, params)
         return cacheKey!!
     }
 

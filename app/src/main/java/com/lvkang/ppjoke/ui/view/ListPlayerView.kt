@@ -27,8 +27,8 @@ class ListPlayerView : FrameLayout {
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : super(
         context, attributeSet, defStyleAttr
     ) {
-        var mPlayView =
-            LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
+
+        LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
         bufferView = findViewById(R.id.buffer_view)
         cover = findViewById(R.id.cover)
         blur = findViewById(R.id.blur_background)

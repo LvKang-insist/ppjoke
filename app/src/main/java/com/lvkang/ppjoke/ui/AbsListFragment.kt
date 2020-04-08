@@ -1,6 +1,7 @@
 package com.lvkang.ppjoke.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +23,11 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import java.lang.reflect.ParameterizedType
 
-abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshListener,
+abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefreshListener,
     OnLoadMoreListener {
 
     private var binding: LayoutRefreshViewBinding? = null
-    private var mAdapter: PagedListAdapter<T, ViewHolder>? = null
+    private var mAdapter: PagedListAdapter<V, ViewHolder>? = null
     private var mRefreshLayout: SmartRefreshLayout? = null
     private var mRecyclerView: RecyclerView? = null
     private var mEmptyView: EmptyView? = null
@@ -44,7 +45,7 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
         mRefreshLayout = binding?.refreshLayout
         mEmptyView = binding?.emptyView
 
-
+        //注册事件
         mRefreshLayout?.setEnableRefresh(true)
         mRefreshLayout?.setEnableLoadMore(true)
         mRefreshLayout?.setOnRefreshListener(this)
@@ -56,36 +57,41 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
         mRecyclerView?.itemAnimator = null
         mAdapter = getAdapter()
         mRecyclerView?.adapter = mAdapter
+
+        //分割线
         val decoration = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
         decoration.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.list_divider)!!)
         mRecyclerView?.addItemDecoration(decoration)
 
         afterCreateView()
 
-        init(binding!!.root,null)
+        init()
         return binding?.root
     }
 
     abstract fun afterCreateView()
 
-     fun init(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun init() {
+
+        //利用 子类传递的泛型参数实例化出 absViewModel 对象
         val type = javaClass.genericSuperclass as ParameterizedType
-        var arguments = type.actualTypeArguments
+        val arguments = type.actualTypeArguments
         if (arguments.size > 1) {
             val argument = arguments[1]
             val modeClazz = (argument as Class<*>).asSubclass(AbsViewModel::class.java)
             mViewModel = ViewModelProviders.of(this).get(modeClazz) as M
-            //触发页面初始化数据加载的逻辑
+
             //触发页面初始化数据加载的逻辑
             mViewModel!!.pageData
                 .observe(viewLifecycleOwner,
-                    object : Observer<PagedList<*>> {
-                        override fun onChanged(t: PagedList<*>?) {
-                            mAdapter!!.submitList(t as PagedList<T>?)
+                    object : Observer<PagedList<V>> {
+                        override fun onChanged(t: PagedList<V>?) {
+                            Log.e("-------- 1：", "${t?.size}")
+                            mAdapter!!.submitList(t)
                         }
                     })
 
+            //监听分页时有无更多数据，已决定是否关闭上拉加载的动画
             mViewModel!!.boundaryPageData.observe(viewLifecycleOwner,
                 Observer<Boolean> { t -> finishRefresh(t) })
         }
@@ -95,7 +101,7 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
     /**
      * 下拉刷新后的数据
      */
-    fun submitList(pageList: PagedList<T>) {
+    fun submitList(pageList: PagedList<V>) {
         //加载数据
         if (pageList.size > 0) mAdapter?.submitList(pageList)
 
@@ -123,6 +129,6 @@ abstract class AbsListFragment<T, M : AbsViewModel<T>> : Fragment(), OnRefreshLi
     /**
      * 如果要使用 padding 分页，则适配器必须是 PagedListAdapter
      */
-    abstract fun getAdapter(): PagedListAdapter<T, ViewHolder>
+    abstract fun getAdapter(): PagedListAdapter<V, ViewHolder>
 
 }

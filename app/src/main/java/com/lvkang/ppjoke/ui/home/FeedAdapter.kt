@@ -1,6 +1,7 @@
 package com.lvkang.ppjoke.ui.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.lvkang.ppjoke.model.Feed
 
-class FeedAdapter(mContext: Context, val mCategory: String) :
+class FeedAdapter(mContext: Context, private val mCategory: String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(ItemCallBack()) {
 
     var inflater: LayoutInflater? = null
@@ -33,26 +35,48 @@ class FeedAdapter(mContext: Context, val mCategory: String) :
 
         override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
             //用于判断两个条目的内容是否相同
-//         return   oldItem.equals(newItem)
-            return false
+         return oldItem == newItem
         }
 
     }
 
+    /**
+     * 返回条目
+     */
     override fun getItemViewType(position: Int): Int {
-        return getItem(position)!!.itemType
+        val feed = getItem(position)
+        if (feed != null) {
+            if (feed.itemType == Feed.TYPE_IMAGE) {
+                return R.layout.layout_feed_type_image
+            } else if (feed.itemType == Feed.TYPE_VIDEO) {
+                return R.layout.layout_feed_type_video
+            }
+        }
+        return 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        Log.e("-------- 2：", "00000")
 //        var binding: ViewDataBinding? = null
         return if (viewType == Feed.TYPE_IMAGE) {
-            val binding  =DataBindingUtil.inflate<LayoutFeedTypeImageBinding>(inflater!!,viewType,parent,false)
+            val binding = DataBindingUtil.inflate<LayoutFeedTypeImageBinding>(
+                inflater!!,
+                viewType,
+                parent,
+                false
+            )
             ViewHolder(binding!!.root, binding, mCategory)
         } else {
-            val binding  =DataBindingUtil.inflate<LayoutFeedTypeVideoBinding>(inflater!!,viewType,parent,false)
+            Log.e("-------- 3：", " ---")
+            val binding = DataBindingUtil.inflate<LayoutFeedTypeVideoBinding>(
+                inflater!!,
+                viewType,
+                parent,
+                false
+            )
+            Log.e("-------- 4：", " ---")
             ViewHolder(binding!!.root, binding, mCategory)
         }
-
 
     }
 

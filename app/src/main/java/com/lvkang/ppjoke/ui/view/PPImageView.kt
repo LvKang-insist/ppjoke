@@ -20,8 +20,17 @@ import com.lvkang.libcommon.PixUtils
  * @time 2020/3/17 22:00
  * @description 用于辅助在视图上加载图片
  */
-class PPImageView(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
-    AppCompatImageView(context, attrs, defStyleAttr) {
+class PPImageView: AppCompatImageView {
+
+    constructor(context: Context):this(context, null)
+
+    constructor(context: Context, attrs: AttributeSet?):this(context,attrs,0)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     /**
      * dataBinding 提供的注解，用来标记一个方法，能够给布局文件去使用

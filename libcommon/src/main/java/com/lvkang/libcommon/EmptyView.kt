@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 
 class EmptyView : LinearLayoutCompat {
+
     private var icon: AppCompatImageView? = null
     private var title: AppCompatTextView? = null
     private var action: Button? = null

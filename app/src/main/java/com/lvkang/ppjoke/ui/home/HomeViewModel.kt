@@ -13,7 +13,7 @@ import com.lvkang.ppjoke.ui.AbsViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-open class HomeViewModel : AbsViewModel<Feed>() {
+open class HomeViewModel : AbsViewModel<Int, Feed>() {
 
     @Volatile
     private var witchCache = true
@@ -21,6 +21,7 @@ open class HomeViewModel : AbsViewModel<Feed>() {
     override fun createDataSource(): DataSource<Int, Feed> {
         return mDataSource
     }
+
 
     private val mDataSource = object : ItemKeyedDataSource<Int, Feed>() {
         override fun loadInitial(
@@ -46,7 +47,6 @@ open class HomeViewModel : AbsViewModel<Feed>() {
             return item.id
         }
 
-
     }
 
     private fun loadData(key: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
@@ -54,7 +54,7 @@ open class HomeViewModel : AbsViewModel<Feed>() {
             .addParam("feedType", null)
             .addParam("userId", 0)
             .addParam("feedId", 0)
-            .addParam("pageCount", 0)
+            .addParam("pageCount", 1)
             .responseType(object : TypeReference<ArrayList<Feed>>() {}.type)
 
         //如果需要加载缓存
