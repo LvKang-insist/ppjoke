@@ -15,8 +15,10 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        //由于 启动时设置了 R.style.launcher 的windowBackground属性
+        //势必要在进入主页后,把窗口背景清理掉
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

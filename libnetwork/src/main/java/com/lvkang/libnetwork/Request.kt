@@ -168,7 +168,7 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
         val content = response.body?.string()
         if (success) {
             Log.e("url：", mUrl)
-            Log.e("-----------", content)
+            Log.e("result：", content!!)
             val mConvert = ApiService.mConvert ?: JsonConvert<T>()
 
             when {
@@ -177,13 +177,13 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
                     val type: ParameterizedType =
                         callback.javaClass.genericSuperclass as ParameterizedType
                     val argument = type.actualTypeArguments[0]
-                    result.body = mConvert.convert(content!!, argument) as T
+                    result.body = mConvert.convert(content, argument) as T
                 }
                 mType != null -> {
-                    result.body = mConvert.convert(content!!, mType!!) as T
+                    result.body = mConvert.convert(content, mType!!) as T
                 }
                 mClazz != null -> {
-                    result.body = mConvert.convert(content!!, mClazz!!) as T
+                    result.body = mConvert.convert(content, mClazz!!) as T
                 }
                 else -> {
                     result.body = content as T

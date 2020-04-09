@@ -35,7 +35,7 @@ class FeedAdapter(mContext: Context, private val mCategory: String) :
 
         override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
             //用于判断两个条目的内容是否相同
-         return oldItem == newItem
+            return oldItem == newItem
         }
 
     }
@@ -68,6 +68,7 @@ class FeedAdapter(mContext: Context, private val mCategory: String) :
             ViewHolder(binding!!.root, binding, mCategory)
         } else {
             Log.e("-------- 3：", " ---")
+
             val binding = DataBindingUtil.inflate<LayoutFeedTypeVideoBinding>(
                 inflater!!,
                 viewType,
