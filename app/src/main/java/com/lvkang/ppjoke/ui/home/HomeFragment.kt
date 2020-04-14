@@ -19,21 +19,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
 
-//    var homeViewModel: HomeViewModel? = null
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-//    ): View? {
-//        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-//        val view = inflater.inflate(R.layout.fragment_home, container, false)
-//        homeViewModel
-//        return view
-//    }
-
     /**
      * 设置 Adapter
      */
     override fun getAdapter(): PagedListAdapter<Feed, RecyclerView.ViewHolder> {
+
         val feedType: String? = if (arguments == null) "all" else arguments!!.getString("feedType")
 
         return FeedAdapter(context!!, feedType!!) as PagedListAdapter<Feed, RecyclerView.ViewHolder>
@@ -49,7 +39,9 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
      * 加载监听
      */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
+
     }
+
 
     override fun afterCreateView() {
 

@@ -11,8 +11,9 @@ import com.lvkang.libnetwork.Request
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsViewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
-open class HomeViewModel : AbsViewModel<Feed>() {
+open class HomeViewModel : AbsViewModel<Int, Feed>() {
 
     @Volatile
     private var witchCache = true
@@ -20,6 +21,7 @@ open class HomeViewModel : AbsViewModel<Feed>() {
     override fun createDataSource(): DataSource<Int, Feed> {
         return mDataSource
     }
+
 
     private val mDataSource = object : ItemKeyedDataSource<Int, Feed>() {
         override fun loadInitial(
@@ -44,6 +46,7 @@ open class HomeViewModel : AbsViewModel<Feed>() {
             //返回键
             return item.id
         }
+
     }
 
     private fun loadData(key: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
@@ -51,41 +54,42 @@ open class HomeViewModel : AbsViewModel<Feed>() {
             .addParam("feedType", null)
             .addParam("userId", 0)
             .addParam("feedId", 0)
-            .addParam("pageCount", 10)
+            .addParam("pageCount", 1)
             .responseType(object : TypeReference<ArrayList<Feed>>() {}.type)
 
         //如果需要加载缓存
         if (witchCache) {
-            //修改缓存策略
-            request.cacheStratgy(Request.CACHE_ONLY)
-            request.execute(object : JsonCallback<List<Feed>>() {
-                override fun onCacheSuccess(response: ApiResponse<List<Feed>>) {
-                    Log.e("onCacheSuccess：", "onCacheSuccess ${response.body?.size}")
-                }
-            })
+//            //修改缓存策略
+//            request.cacheStratgy(Request.CACHE_ONLY)
+//            request.execute(object : JsonCallback<List<Feed>>() {
+//                override fun onCacheSuccess(response: ApiResponse<List<Feed>>) {
+//                    Log.e("onCacheSuccess：", "onCacheSuccess ${response.body?.size}")
+//                }
+//            })
         }
 
-        var netRequest: Request<List<Feed>, *>? = null
-
-        netRequest = if (witchCache) {
-            request.clone()
-        } else {
-            request
-        }
-
-        netRequest.cacheStratgy(
-            if (key == 0) {
-                Request.NET_CACHE
-            } else Request.NET_ONLY
-        )
+//        var netRequest: Request<List<Feed>, *>? = null
+//
+//        netRequest = if (witchCache) {
+//            request.clone()
+//        } else {
+//            request
+//        }
+//
+//        netRequest.cacheStratgy(
+//            if (key == 0) {
+//                Request.NET_CACHE
+//            } else Request.NET_ONLY
+//        )
 
         val response = request.execute()
         val data = if (response.body == null) Collections.emptyList<Feed>() else response.body
         callback.onResult(data!!)
+
         Log.e("url：", "${data.size}")
         //通过 liveData 发送数据，告诉 UI ，是否应该主动关闭上拉加载分页的动画
-       /* if (key > 0) {
+        if (key > 0) {
             boundaryPageData.postValue(data.isNotEmpty())
-        }*/
+        }
     }
 }

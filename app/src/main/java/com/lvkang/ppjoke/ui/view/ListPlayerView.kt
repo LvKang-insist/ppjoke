@@ -2,6 +2,7 @@ package com.lvkang.ppjoke.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,12 +28,12 @@ class ListPlayerView : FrameLayout {
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : super(
         context, attributeSet, defStyleAttr
     ) {
-        val mPlayView =
-            LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
-        bufferView =mPlayView. findViewById(R.id.buffer_view)
-        cover =mPlayView. findViewById(R.id.cover)
-        blur =mPlayView. findViewById(R.id.blur_background)
-        playBtn =mPlayView. findViewById(R.id.play_btn)
+
+        LayoutInflater.from(context).inflate(R.layout.layout_player_view, this, true)
+        bufferView = findViewById(R.id.buffer_view)
+        cover = findViewById(R.id.cover)
+        blur = findViewById(R.id.blur_background)
+        playBtn = findViewById(R.id.play_btn)
     }
 
     /**
@@ -46,11 +47,11 @@ class ListPlayerView : FrameLayout {
         mVideoUrl = videoUrl
 
         //封面图片
-        cover!!.setImageUrl(cover!!, coverUrl, false)
+        PPImageView.setImageUrl(cover!!, coverUrl, false)
 
         //宽小于高，则高斯模糊背景显示出来
         if (widthPx < heightPx) {
-            blur!!.setBllurImageUrl(coverUrl, 10)
+            PPImageView.setBlurImageUrl(blur!!, coverUrl, 10)
             blur!!.visibility = View.VISIBLE
         } else {
             blur!!.visibility = View.INVISIBLE
@@ -60,6 +61,7 @@ class ListPlayerView : FrameLayout {
     }
 
     protected fun setSize(widthPx: Int, heightPx: Int) {
+        //这里主要是做视频宽大于高，或者高大于宽时，视频的等比缩放
         val maxWidth = PixUtils.getScreenWidth()
         val maxHeight = maxWidth
 
@@ -73,13 +75,13 @@ class ListPlayerView : FrameLayout {
         //如果宽大于高
         if (widthPx >= heightPx) {
             coverWidth = maxWidth
-            coverHeight = heightPx / (widthPx * 1.0f / maxWidth).toInt()
+            coverHeight = (heightPx / (widthPx * 1.0f / maxWidth)).toInt()
             layoutHeight = coverHeight
         } else {
             //宽度小于高，则高度为最大值，并计算宽度
             coverHeight = maxHeight
             layoutHeight = coverHeight
-            coverWidth = widthPx / (heightPx * 1.0f / maxHeight).toInt()
+            coverWidth = (widthPx / (heightPx * 1.0f / maxHeight)).toInt()
         }
         //当前 View 的宽高
         val params = layoutParams
