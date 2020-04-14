@@ -8,26 +8,41 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PagedList.BoundaryCallback
 
+/**
+ * ViewModel
+ */
 abstract class AbsViewModel<K, V> : ViewModel {
 
 
     var dataSource: DataSource<K, V>? = null
+    //列表数据
     val pageData: LiveData<PagedList<V>>
+    //监听数据的边界
     val boundaryPageData = MutableLiveData<Boolean>()
 
 
-    var config: PagedList.Config = PagedList.Config.Builder()
+    private var config: PagedList.Config = PagedList.Config.Builder()
         .setPageSize(10)
         .setInitialLoadSizeHint(12) // .setMaxSize(100)； // .setEnablePlaceholders(false) // .setPrefetchDistance()
         .build()
 
     constructor() {
+        // 通过 pageData.observe() 加载分页数据
         pageData = LivePagedListBuilder<K, V>(factory, config)
             .setInitialLoadKey(0 as K) //.setFetchExecutor()
             .setBoundaryCallback(callback)
             .build()
     }
 
+    var factory =
+        object : DataSource.Factory<K, V>() {
+            override fun create(): DataSource<K, V> {
+                if (dataSource == null || dataSource!!.isInvalid) {
+                    dataSource = createDataSource()
+                }
+                return dataSource!!
+            }
+        }
 
     fun getBoundaryPageData(): LiveData<Boolean> {
         return boundaryPageData
@@ -53,15 +68,6 @@ abstract class AbsViewModel<K, V> : ViewModel {
         }
     }
 
-    var factory =
-        object : DataSource.Factory<K, V>() {
-            override fun create(): DataSource<K, V> {
-                if (dataSource == null || dataSource!!.isInvalid) {
-                    dataSource = createDataSource()
-                }
-                return dataSource!!
-            }
-        }
 
     abstract fun createDataSource(): DataSource<K, V>?
     //可以在这个方法里 做一些清理 的工作

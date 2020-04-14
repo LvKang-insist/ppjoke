@@ -1,7 +1,6 @@
 package com.lvkang.ppjoke.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,12 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import java.lang.reflect.ParameterizedType
 
-abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefreshListener,
-    OnLoadMoreListener {
+/**
+ * 基础的 ListFragment，配置列表通用的配置
+ */
+@Suppress("UNCHECKED_CAST")
+abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
+    OnRefreshListener, OnLoadMoreListener {
 
     private var binding: LayoutRefreshViewBinding? = null
     private var mAdapter: PagedListAdapter<V, ViewHolder>? = null
@@ -72,7 +75,6 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefr
     abstract fun afterCreateView()
 
     private fun init() {
-
         //利用 子类传递的泛型参数实例化出 absViewModel 对象
         val type = javaClass.genericSuperclass as ParameterizedType
         val arguments = type.actualTypeArguments
@@ -84,14 +86,9 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefr
             //触发页面初始化数据加载的逻辑
             mViewModel!!.pageData
                 .observe(viewLifecycleOwner,
-                    object : Observer<PagedList<V>> {
-                        override fun onChanged(t: PagedList<V>?) {
-                            Log.e("-------- 1：", "${t?.size}")
-                            mAdapter!!.submitList(t)
-                        }
-                    })
+                    Observer<PagedList<V>> { t -> mAdapter!!.submitList(t) })
 
-            //监听分页时有无更多数据，已决定是否关闭上拉加载的动画
+            //监听数据边界，已决定是否关闭上拉加载的动画
             mViewModel!!.boundaryPageData.observe(viewLifecycleOwner,
                 Observer<Boolean> { t -> finishRefresh(t) })
         }
@@ -99,6 +96,8 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefr
     }
 
     /**
+     * Pading 框架在做下拉刷新的时候数据必须是 PagedList，
+     * 通过 Adapter 的 submitList 完成数据的加载
      * 下拉刷新后的数据
      */
     fun submitList(pageList: PagedList<V>) {
@@ -108,7 +107,7 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(), OnRefr
         finishRefresh(pageList.size > 0)
     }
 
-    fun finishRefresh(hasData: Boolean) {
+    private fun finishRefresh(hasData: Boolean) {
         val currentList = mAdapter!!.currentList
         var has: Boolean = false
 

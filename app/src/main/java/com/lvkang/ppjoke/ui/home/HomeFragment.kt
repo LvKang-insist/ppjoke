@@ -18,14 +18,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 @FragmentDestination(pageUrl = "main/tabs/home", asStarter = true)
 class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
-
     /**
      * 设置 Adapter
      */
     override fun getAdapter(): PagedListAdapter<Feed, RecyclerView.ViewHolder> {
 
+        //mCategory
         val feedType: String? = if (arguments == null) "all" else arguments!!.getString("feedType")
-
         return FeedAdapter(context!!, feedType!!) as PagedListAdapter<Feed, RecyclerView.ViewHolder>
     }
 

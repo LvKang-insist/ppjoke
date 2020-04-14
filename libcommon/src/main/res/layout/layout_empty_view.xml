@@ -23,6 +23,7 @@
         android:gravity="center"
         android:textColor="#999999"
         android:textSize="16sp"
+        android:visibility="gone"
         tools:text="这里展示的是空数据提案" />
 
 
@@ -34,6 +35,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="#ffffff"
+        android:visibility="gone"
         android:textSize="14sp"
         app:backgroundTint="#ff678f"
         app:cornerRadius="20dp"

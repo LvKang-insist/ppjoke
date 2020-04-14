@@ -4,7 +4,6 @@ package com.lvkang.libnetwork
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import android.util.Log
 import androidx.annotation.IntDef
 import androidx.arch.core.executor.ArchTaskExecutor
 import com.lvkang.libnetwork.cache.CacheManager
@@ -67,7 +66,7 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
      */
     fun addParam(key: String, value: Any?): R {
         if (value == null) return this as R
-        if (value is String){
+        if (value is String) {
             params[key] = value
             return this as R
         }
@@ -170,9 +169,7 @@ abstract class Request<T, R : Request<T, R>>(private var mUrl: String) : Cloneab
         val success = response.isSuccessful
         val result = ApiResponse<T>()
         val content = response.body?.string()
-        if (success) {
-            Log.e("url：", mUrl)
-            Log.e("result：", content!!)
+        if (success && content != null) {
             val mConvert = ApiService.mConvert ?: JsonConvert<T>()
 
             when {

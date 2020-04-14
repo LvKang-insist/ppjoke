@@ -122,10 +122,10 @@ class PPImageView : AppCompatImageView {
             //宽为最大值
             finalWidth = maxWidth
             //高度自适应
-            finalHeight = height / (width * 1.0f / finalWidth).toInt()
+            finalHeight = (height / (width * 1.0f / finalWidth)).toInt()
         } else {
             finalHeight = maxHeight
-            finalWidth = width / (height * 1.0f / finalHeight).toInt()
+            finalWidth = (width / (height * 1.0f / finalHeight)).toInt()
         }
 
         //设置 宽高
