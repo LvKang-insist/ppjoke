@@ -86,7 +86,7 @@ class FeedAdapter(mContext: Context, private val mCategory: String) :
             if (binding is LayoutFeedTypeImageBinding) {
                 //绑定数据
                 binding.feed = item
-                binding.feedIamge.bindData(item.width, item.height, 16, item.cover!!)
+                binding.feedIamge.bindData(item.width, item.height, 16, item.cover)
             } else if (binding is LayoutFeedTypeVideoBinding) {
                 binding.feed = item
                 binding.listPlayerView.bindData(

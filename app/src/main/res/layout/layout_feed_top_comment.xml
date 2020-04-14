@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -25,7 +26,8 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
-        android:paddingBottom="@dimen/dp_10">
+        android:paddingBottom="@dimen/dp_10"
+        android:visibility="@{comment==null?View.GONE:View.VISIBLE}">
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -109,22 +111,23 @@
             <FrameLayout
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="@dimen/dp_10">
+                android:layout_marginTop="@dimen/dp_10"
+                android:visibility="@{TextUtils.isEmpty(comment.imageUrl)?View.GONE:View.VISIBLE}">
 
                 <com.lvkang.ppjoke.ui.view.PPImageView
-                    image_url="@{comment.imageUrl}"
-                    isCircle="@{false}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@color/color_theme_10"
+                    app:image_url="@{comment.imageUrl}"
+                    app:isCircle="@{false}"
                     tools:src="@mipmap/ic_launcher" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:visibility="@{comment.commentType == 2?View.VISIBLE:View.GONE}"
+                    android:visibility="@{TextUtils.isEmpty(comment.videoUrl)?View.GONE:View.VISIBLE}"
                     tools:src="@drawable/icon_video_play" />
 
             </FrameLayout>

@@ -89,8 +89,13 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
         val response = netRequest.execute()
         val data = if (response.body == null) Collections.emptyList<Feed>() else response.body
         //将数据回传回去
-        callback.onResult(data!!)
-        Log.e("url：", "${data.size}")
+        if (data != null && data.isNotEmpty()) {
+            callback.onResult(data)
+        }
+        Log.e("url：", "${data!!.size}")
+
+        Log.e("loadData", "loadData: key:$key")
+
 
         // key 大于 0 则会为下拉加载
         if (key > 0) {

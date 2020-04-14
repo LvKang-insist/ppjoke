@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -77,14 +79,16 @@ class PPImageView : AppCompatImageView {
     }
 
     fun bindData(
-        widthPx: Int, heightPx: Int, marginLeft: Int, imageUrl: String
+        widthPx: Int, heightPx: Int, marginLeft: Int, imageUrl: String?
     ) {
-        bindData(
-            widthPx, heightPx, marginLeft,
-            PixUtils.getScreenWidth(),
-            PixUtils.getScreenHeight(),
-            imageUrl
-        )
+        if (imageUrl != null && imageUrl.isNotEmpty()) {
+            bindData(
+                widthPx, heightPx, marginLeft,
+                PixUtils.getScreenWidth(),
+                PixUtils.getScreenHeight(),
+                imageUrl
+            )
+        }
     }
 
     fun bindData(
@@ -129,9 +133,15 @@ class PPImageView : AppCompatImageView {
         }
 
         //设置 宽高
-        val params = ViewGroup.MarginLayoutParams(finalWidth, finalHeight)
-        if (height > width) {
-            params.leftMargin = PixUtils.dp2px(marginLeft)
+        val params = layoutParams
+        params.width = finalWidth
+        params.height = finalHeight
+
+        //设置 margin
+        if (params is FrameLayout.LayoutParams) {
+            params.leftMargin = if (height > width) PixUtils.dp2px(marginLeft) else 0
+        } else if (params is LinearLayoutCompat.LayoutParams) {
+            params.leftMargin = if (height > width) PixUtils.dp2px(marginLeft) else 0
         }
         layoutParams = params
     }

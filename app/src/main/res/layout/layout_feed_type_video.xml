@@ -8,6 +8,7 @@
             name="feed"
             type="com.lvkang.ppjoke.model.Feed" />
 
+        <import type="android.view.View" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -30,14 +31,15 @@
         <!-- 视频区域-->
         <com.lvkang.ppjoke.ui.view.ListPlayerView
             android:id="@+id/list_player_view"
-            android:layout_marginBottom="@dimen/dp_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10" />
 
 
         <!-- 内容区域 -->
         <include
             layout="@layout/layout_feed_top_comment"
+            android:visibility="@{feed.topComment==null? View.GONE:View.VISIBLE}"
             app:comment="@{feed.topComment}" />
 
         <!--        标签区域-->
