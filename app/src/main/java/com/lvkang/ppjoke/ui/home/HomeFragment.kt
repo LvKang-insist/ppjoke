@@ -1,10 +1,14 @@
 package com.lvkang.ppjoke.ui.home
 
+import androidx.lifecycle.Observer
+import androidx.paging.ItemKeyedDataSource
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsListFragment
+import com.lvkang.ppjoke.ui.MutableDataSource
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
@@ -32,18 +36,33 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
      * 刷新监听
      */
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        mViewModel?.dataSource?.invalidate()
     }
 
     /**
-     * 加载监听
+     * 加载更多
      */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-
+        val feed = mAdapter!!.currentList?.get(mAdapter!!.itemCount - 1)
+        if (feed != null) {
+            mViewModel?.loadAfter(feed.id, object : ItemKeyedDataSource.LoadCallback<Feed>() {
+                override fun onResult(data: MutableList<Feed>) {
+                    if (data.size > 0) {
+                        val dataSource = MutableDataSource<Int, Feed>()
+                        dataSource.data.addAll(data)
+                        val pageList =
+                            dataSource.buildNewPageList(mAdapter!!.currentList!!.config)
+                        submitList(pageList)
+                    }
+                }
+            })
+        }
     }
 
 
     override fun afterCreateView() {
-
+        mViewModel?.cacheLiveData?.observe(this,
+            Observer<PagedList<Feed>> { t -> if (t != null) submitList(t) })
     }
 
 

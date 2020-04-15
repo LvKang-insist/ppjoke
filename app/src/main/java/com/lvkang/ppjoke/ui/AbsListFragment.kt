@@ -30,12 +30,12 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
     OnRefreshListener, OnLoadMoreListener {
 
     private var binding: LayoutRefreshViewBinding? = null
-    private var mAdapter: PagedListAdapter<V, ViewHolder>? = null
+    var mAdapter: PagedListAdapter<V, ViewHolder>? = null
     private var mRefreshLayout: SmartRefreshLayout? = null
     private var mRecyclerView: RecyclerView? = null
     private var mEmptyView: EmptyView? = null
 
-    private var mViewModel: M? = null
+    var mViewModel: M? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

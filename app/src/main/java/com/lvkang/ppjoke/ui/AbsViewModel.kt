@@ -21,7 +21,7 @@ abstract class AbsViewModel<K, V> : ViewModel {
     val boundaryPageData = MutableLiveData<Boolean>()
 
 
-    private var config: PagedList.Config = PagedList.Config.Builder()
+    var config: PagedList.Config = PagedList.Config.Builder()
         .setPageSize(10)
         .setInitialLoadSizeHint(12) // .setMaxSize(100)； // .setEnablePlaceholders(false) // .setPrefetchDistance()
         .build()

@@ -1,8 +1,11 @@
 package com.lvkang.ppjoke.ui.home
 
 import android.util.Log
+import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
+import androidx.paging.PagedList
 import com.alibaba.fastjson.TypeReference
 import com.lvkang.libnetwork.ApiResponse
 import com.lvkang.libnetwork.ApiService
@@ -10,12 +13,18 @@ import com.lvkang.libnetwork.JsonCallback
 import com.lvkang.libnetwork.Request
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsViewModel
+import com.lvkang.ppjoke.ui.MutableDataSource
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 open class HomeViewModel : AbsViewModel<Int, Feed>() {
 
     @Volatile
     private var witchCache = true
+
+    val cacheLiveData = MutableLiveData<PagedList<Feed>>()
+
+    private val loadAfter = AtomicBoolean()
 
     override fun createDataSource(): DataSource<Int, Feed> {
         return mDataSource
@@ -55,6 +64,9 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
     }
 
     private fun loadData(key: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
+        if (key > 0){
+            loadAfter.set(true)
+        }
         val request = ApiService.get<List<Feed>>("/feeds/queryHotFeedsList")
             .addParam("feedType", null)
             .addParam("userId", 0)
@@ -64,7 +76,6 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
             .addParam("pageCount", 10)
             .responseType(object : TypeReference<ArrayList<Feed>>() {}.type)
 
-
         //如果需要加载缓存
         if (witchCache) {
             //修改缓存策略
@@ -73,6 +84,13 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
             request.execute(object : JsonCallback<List<Feed>>() {
                 override fun onCacheSuccess(response: ApiResponse<List<Feed>>) {
                     Log.e("onCacheSuccess：", "onCacheSuccess ${response.body?.size}")
+                    val body = response.body
+                    if (body != null) {
+                        val dataSource = MutableDataSource<Int, Feed>()
+                        dataSource.data.addAll(body)
+                        val pageList = dataSource.buildNewPageList(config)
+                        cacheLiveData.postValue(pageList)
+                    }
                 }
             })
         }
@@ -93,14 +111,20 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
             callback.onResult(data)
         }
         Log.e("url：", "${data!!.size}")
-
-        Log.e("loadData", "loadData: key:$key")
-
-
         // key 大于 0 则会为下拉加载
         if (key > 0) {
             //关闭下拉加载动画
-            boundaryPageData.postValue(data.isNotEmpty())
+            boundaryPageData.postValue(true)
+            loadAfter.set(false)
+        }
+    }
+
+    fun loadAfter(id: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
+        if (loadAfter.get()){
+            callback.onResult(Collections.emptyList())
+        }
+        ArchTaskExecutor.getIOThreadExecutor().execute {
+            loadData(id,callback)
         }
     }
 }
