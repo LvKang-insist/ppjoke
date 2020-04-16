@@ -67,7 +67,7 @@ class ListPlayerView : FrameLayout {
 
         //当前 View 的宽高
         val layoutwidth = maxHeight
-        var layoutHeight = 0
+        val layoutHeight: Int
 
         //封面的宽高
         val coverWidth: Int

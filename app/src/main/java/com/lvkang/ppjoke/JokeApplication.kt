@@ -3,8 +3,10 @@ package com.lvkang.ppjoke
 import android.app.Application
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.XLog
+import com.facebook.stetho.Stetho
 import com.hjq.toast.ToastUtils
 import com.lvkang.libnetwork.ApiService
+
 
 /**
  * @name ppjoke
@@ -21,5 +23,16 @@ class JokeApplication : Application() {
         //log 和 Tost 工具
         XLog.init(LogConfiguration.Builder().t().tag("345").build())
         ToastUtils.init(this)
+
+        initStetho()
+    }
+
+    private fun initStetho() {
+        Stetho.initialize(
+            Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build()
+        )
     }
 }

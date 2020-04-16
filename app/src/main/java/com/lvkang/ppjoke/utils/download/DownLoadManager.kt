@@ -1,6 +1,7 @@
 package com.lvkang.ppjoke.utils.download
 
 import com.lvkang.libcommon.AppGlobals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.conflate
@@ -23,6 +24,7 @@ object DownLoadManager {
     }
 
 
+    @ExperimentalCoroutinesApi
     fun download(url: String, fileName: String): Flow<DownloadStatus> {
         val file = File(downloadDirectory, fileName)
         return flow {

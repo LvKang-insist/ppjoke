@@ -1,5 +1,7 @@
 package com.lvkang.libnetwork.cache
 
+import com.elvishew.xlog.XLog
+import com.hjq.toast.ToastUtils
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
@@ -19,7 +21,7 @@ object CacheManager {
     /**
      * 序列化存储，将数据转为二进制
      */
-    fun <T> toByteArray(body: T): ByteArray {
+    private fun <T> toByteArray(body: T): ByteArray {
         val byte = ByteArrayOutputStream()
         ObjectOutputStream(byte).use {
             it.writeObject(body)

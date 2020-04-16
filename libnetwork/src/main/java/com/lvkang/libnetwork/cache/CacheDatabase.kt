@@ -50,7 +50,7 @@ abstract class CacheDatabase : RoomDatabase() {
 
 
         fun get(): CacheDatabase {
-            return database;
+            return database
         }
 
         /**

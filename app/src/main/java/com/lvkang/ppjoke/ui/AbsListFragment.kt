@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -81,7 +81,7 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
         if (arguments.size > 1) {
             val argument = arguments[1]
             val modeClazz = (argument as Class<*>).asSubclass(AbsViewModel::class.java)
-            mViewModel = ViewModelProviders.of(this).get(modeClazz) as M
+            mViewModel = ViewModelProvider.NewInstanceFactory().create(modeClazz) as M
 
             //触发页面初始化数据加载的逻辑
             mViewModel!!.pageData

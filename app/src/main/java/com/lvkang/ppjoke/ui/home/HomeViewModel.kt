@@ -1,5 +1,6 @@
 package com.lvkang.ppjoke.ui.home
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.lifecycle.MutableLiveData
@@ -120,6 +121,7 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     fun loadAfter(id: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
         if (loadAfter.get()) {
             callback.onResult(Collections.emptyList())

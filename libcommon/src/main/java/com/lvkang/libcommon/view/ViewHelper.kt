@@ -34,7 +34,7 @@ class ViewHelper {
             setViewOutLine(view, radius, radiusSide)
         }
 
-         fun setViewOutLine(view: View, radius: Int, radiusSide: Int) {
+        fun setViewOutLine(view: View, radius: Int, radiusSide: Int) {
             if (radius <= 0) return
             view.outlineProvider = object : ViewOutlineProvider() {
                 override fun getOutline(view: View, outline: Outline?) {
@@ -42,9 +42,9 @@ class ViewHelper {
                     val height = view.height
                     if (width <= 0 || height <= 0) return
                     if (radiusSide != RADIUS_ALL) {
-                        var left: Int = 0
+                        var left = 0
                         var right = width
-                        var top: Int = 0
+                        var top = 0
                         var bottom = height
 
                         when (radiusSide) {
@@ -54,6 +54,7 @@ class ViewHelper {
                             RADIUS_BOTTOM -> top -= radius
                         }
                         outline?.setRoundRect(left, top, right, bottom, radius.toFloat())
+                        return
                     } else {
                         if (radius > 0) {
                             outline?.setRoundRect(0, 0, width, height, radius.toFloat())
@@ -61,6 +62,8 @@ class ViewHelper {
                     }
                 }
             }
+            view.clipToOutline = radius > 0
+            view.invalidate()
         }
     }
 }

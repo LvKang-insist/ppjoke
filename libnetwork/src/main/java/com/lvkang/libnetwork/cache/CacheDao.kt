@@ -9,7 +9,7 @@ interface CacheDao {
     fun save(cache: Cache): Long
 
     //查询，cache 表中 key 的列
-    @Query("select * from cache where `key`=:key")
+    @Query("select *from cache where `key`=:key")
     fun getCache(key: String): Cache
 
     //删除

@@ -17,6 +17,8 @@
 
         <import type="com.lvkang.ppjoke.ui.home.InteractionPresenter" />
 
+        <import type="android.content.Context" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -63,7 +65,6 @@
             app:iconTint="@{feed.ugc.hasdiss?@color/color_theme:@color/color_3d3}"
             tools:icon="@drawable/icon_cell_diss"
             tools:iconTint="@color/color_3d3"
-            tools:text="1000"
             tools:textColor="@color/black" />
         <!---->
         <com.google.android.material.button.MaterialButton
@@ -71,7 +72,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/color_white"
-            android:text="@{feed.ugc.likeCount>0?StringConvert.convertFeedUgc(feed.ugc.likeCount):null}"
+            android:text="@{feed.ugc.commentCount>0?StringConvert.convertFeedUgc(feed.ugc.commentCount):null}"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_14"
             app:cornerRadius="0dp"
@@ -88,11 +89,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/color_white"
-            android:text="@{feed.ugc.shareCount>0?StringConvert.convertFeedUgc(feed.ugc.likeCount):null}"
+            android:onClick="@{()-> InteractionPresenter.openShare((Context)owner,feed)}"
+            android:text="@{feed.ugc.shareCount>0?StringConvert.convertFeedUgc(feed.ugc.shareCount):null}"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_14"
             app:cornerRadius="0dp"
-            android:onClick="@{()-> InteractionPresenter.openShare(owner,feed)}"
             app:icon="@drawable/icon_cell_share"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"

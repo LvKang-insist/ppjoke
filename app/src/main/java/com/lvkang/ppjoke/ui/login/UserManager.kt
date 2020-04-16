@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.hjq.toast.ToastUtils
 import com.lvkang.libnetwork.cache.CacheManager
 import com.lvkang.ppjoke.model.User
 
@@ -15,8 +16,10 @@ object UserManager {
 
     init {
         val cache = CacheManager.getCache(KEY_CACHE_USER) as User?
-        if (cache != null && cache.expires_time < System.currentTimeMillis()) {
+        if (cache != null && cache.expires_time > System.currentTimeMillis()) {
             mUser = cache
+        }else{
+            ToastUtils.show("获取登录数据失败")
         }
     }
 
@@ -37,7 +40,7 @@ object UserManager {
     }
 
     fun isLogin(): Boolean {
-        return if (mUser == null) false else mUser!!.expires_time < System.currentTimeMillis()
+        return if (mUser == null) false else mUser!!.expires_time > System.currentTimeMillis()
     }
 
     fun getUser(): User? {

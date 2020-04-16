@@ -5,21 +5,28 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elvishew.xlog.XLog
 import com.hjq.toast.ToastUtils
 import com.lvkang.libcommon.PixUtils
 import com.lvkang.libcommon.view.PPImageView
 import com.lvkang.libcommon.view.RoundFrameLayout
 import com.lvkang.libcommon.view.ViewHelper
 import com.lvkang.ppjoke.R
+import java.io.File
+import java.io.FileOutputStream
 
 class ShareDialog(context: Context) : AlertDialog(context) {
 
@@ -33,10 +40,12 @@ class ShareDialog(context: Context) : AlertDialog(context) {
         super.onCreate(savedInstanceState)
 
         val layout = RoundFrameLayout(context)
+        layout.setBackgroundColor(Color.WHITE)
         layout.setViewOutLine(PixUtils.dp2px(20), ViewHelper.RADIUS_TOP)
+        setContentView(layout)
+
         val gridView = RecyclerView(context)
         gridView.layoutManager = GridLayoutManager(context, 4)
-
         val params = FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -47,9 +56,8 @@ class ShareDialog(context: Context) : AlertDialog(context) {
         params.topMargin = margin
         params.bottomMargin = margin
         params.gravity = Gravity.CENTER
-
         layout.addView(gridView, params)
-        setContentView(layout)
+
         window?.setGravity(Gravity.BOTTOM)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -58,6 +66,7 @@ class ShareDialog(context: Context) : AlertDialog(context) {
         if (shareContent != null) {
             shareAdapter =
                 ShareAdapter(shareItems, context.packageManager, shareContent!!, listener)
+            gridView.adapter = shareAdapter
         } else {
             ToastUtils.show("分享内容为空")
         }
@@ -99,7 +108,7 @@ class ShareDialog(context: Context) : AlertDialog(context) {
     private class ShareAdapter(
         val item: MutableList<ResolveInfo>?,
         val packageManager: PackageManager,
-        val shareName: String,
+        val shareContent: String,
         val listener: View.OnClickListener?
     ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -125,16 +134,35 @@ class ShareDialog(context: Context) : AlertDialog(context) {
                     val pkg = resolveInfo.activityInfo.packageName
                     val cls = resolveInfo.activityInfo.name
                     val intent = Intent()
-                    intent.setAction(Intent.ACTION_SEND)
-                    intent.setType("text/plain")
-                    intent.setComponent(ComponentName(pkg, cls))
+                    intent.action = Intent.ACTION_SEND
+                    intent.type = "text/plain"; // 纯文本
+//                    intent.type = "image/*"
+                    intent.component = ComponentName(pkg, cls)
+
                     //分享的内容
-                    intent.putExtra(Intent.EXTRA_TEXT, shareName)
+                    intent.putExtra(Intent.EXTRA_TEXT, shareContent)
+//                    intent.putExtra(Intent.EXTRA_STREAM, getUri(shareImage))
                     shareImage.context.startActivity(intent)
                     listener?.onClick(it)
                 }
             }
 
+        }
+
+        private fun getUri(shareImage: PPImageView): Uri {
+            val bitmap = BitmapFactory.decodeResource(
+                shareImage.context.resources,
+                R.mipmap.icon_jetpack
+            )
+            val file = File(shareImage.context.externalCacheDir, "shareImage.png")
+            val fos = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            fos.flush()
+            fos.close()
+            return FileProvider.getUriForFile(
+                shareImage.context,
+                "${shareImage.context.packageName}.fileprovider", file
+            )
         }
 
 

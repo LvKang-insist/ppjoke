@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSONObject
+import com.elvishew.xlog.XLog
 import com.lvkang.libcommon.AppGlobals
 import com.lvkang.libnetwork.ApiResponse
 import com.lvkang.libnetwork.ApiService
@@ -47,6 +48,7 @@ class InteractionPresenter {
                 .execute(object : JsonCallback<JSONObject>() {
                     override fun onSuccess(response: ApiResponse<JSONObject>) {
                         val hasLiked = response.body?.getBoolean("hasLiked")
+                        XLog.e("--------------${hasLiked}")
                         feed.ugc?.hasLiked = hasLiked!!
                     }
                 })
@@ -86,12 +88,11 @@ class InteractionPresenter {
                 })
         }
 
-
         @JvmStatic
         fun openShare(context: Context, feed: Feed) {
             val format = String.format("", feed.itemId, Date().time, UserManager.getUserId())
             val shareDialog = ShareDialog(context)
-            shareDialog.setShareContent(format)
+            shareDialog.setShareContent("我是分享的内容")
             shareDialog.setShareItemClickListener(View.OnClickListener {
                 ApiService.get<JSONObject>("ugc/increaseShareCount")
                     .addParam("itemId", feed.itemId)
@@ -104,6 +105,7 @@ class InteractionPresenter {
                         }
                     })
             })
+            shareDialog.show()
         }
 
         @JvmStatic

@@ -11,6 +11,7 @@ import androidx.paging.PagedList.BoundaryCallback
 /**
  * ViewModel
  */
+@Suppress("UNCHECKED_CAST")
 abstract class AbsViewModel<K, V> : ViewModel {
 
 
@@ -34,7 +35,10 @@ abstract class AbsViewModel<K, V> : ViewModel {
             .build()
     }
 
-    var factory =
+    /**
+     * 数据工厂
+     */
+    private var factory =
         object : DataSource.Factory<K, V>() {
             override fun create(): DataSource<K, V> {
                 if (dataSource == null || dataSource!!.isInvalid) {
