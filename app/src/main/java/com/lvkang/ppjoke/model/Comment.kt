@@ -42,6 +42,9 @@ class Comment : Serializable {
     var hasLiked = false
     var author: User? = null
     var ugc: Ugc? = null
+        get() {
+            return if (field == null) Ugc() else field
+        }
 
     override fun equals(@Nullable other: Any?): Boolean {
         if (other == null || other !is Comment)

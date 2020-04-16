@@ -9,7 +9,13 @@
             name="feed"
             type="com.lvkang.ppjoke.model.Feed" />
 
+        <variable
+            name="owner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
         <import type="com.lvkang.ppjoke.utils.StringConvert" />
+
+        <import type="com.lvkang.ppjoke.ui.home.InteractionPresenter" />
 
     </data>
 
@@ -26,6 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/color_white"
+            android:onClick="@{()->InteractionPresenter.toggleFeedLike(owner,feed)}"
             android:text="@{feed.ugc.likeCount>0?StringConvert.convertFeedUgc(feed.ugc.likeCount):null}"
             android:textColor="@{feed.ugc.hasLiked?@color/color_theme:@color/color_3d3}"
             android:textSize="@dimen/sp_14"
@@ -45,6 +52,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/color_white"
+            android:onClick="@{()->InteractionPresenter.toggleFeedDiss(owner,feed)}"
             android:text="@string/cai"
             android:textColor="@{feed.ugc.hasdiss?@color/color_theme:@color/color_3d3}"
             android:textSize="@dimen/sp_14"
@@ -84,6 +92,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/sp_14"
             app:cornerRadius="0dp"
+            android:onClick="@{()-> InteractionPresenter.openShare(owner,feed)}"
             app:icon="@drawable/icon_cell_share"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_4"

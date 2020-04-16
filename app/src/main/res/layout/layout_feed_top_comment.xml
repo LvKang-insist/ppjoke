@@ -9,11 +9,19 @@
             name="comment"
             type="com.lvkang.ppjoke.model.Comment" />
 
+        <variable
+            name="owner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+
         <import type="android.text.TextUtils" />
 
         <import type="android.view.View" />
 
         <import type="com.lvkang.ppjoke.utils.StringConvert" />
+
+        <import type="com.lvkang.ppjoke.ui.home.InteractionPresenter" />
+
 
     </data>
 
@@ -51,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <com.lvkang.ppjoke.ui.view.PPImageView
+                <com.lvkang.libcommon.view.PPImageView
                     android:id="@+id/avatar"
                     image_url="@{comment.author.avatar}"
                     isCircle="@{true}"
@@ -87,6 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
+                    android:onClick="@{()-> InteractionPresenter.toggleCommentLike(owner,comment)}"
                     android:padding="2dp"
                     android:src="@{comment.ugc.hasLiked?@drawable/icon_cell_liked:@drawable/icon_cell_like}"
                     tools:src="@drawable/icon_cell_like" />
@@ -114,7 +123,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:visibility="@{TextUtils.isEmpty(comment.imageUrl)?View.GONE:View.VISIBLE}">
 
-                <com.lvkang.ppjoke.ui.view.PPImageView
+                <com.lvkang.libcommon.view.PPImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"

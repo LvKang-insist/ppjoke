@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ import com.lvkang.ppjoke.model.Feed
 /**
  * 适配器
  */
-class FeedAdapter(mContext: Context, private val mCategory: String) :
+class FeedAdapter(val mContext: Context, private val mCategory: String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(ItemCallBack()) {
 
     var inflater: LayoutInflater? = null
@@ -77,21 +78,23 @@ class FeedAdapter(mContext: Context, private val mCategory: String) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //
-        holder.bindData(getItem(position)!!)
+        holder.bindData(getItem(position)!!, mContext)
     }
 
     class ViewHolder(val view: View, val binding: ViewDataBinding, private val mCategory: String) :
         RecyclerView.ViewHolder(view) {
-        fun bindData(item: Feed) {
+        fun bindData(item: Feed, context: Context) {
             if (binding is LayoutFeedTypeImageBinding) {
                 //绑定数据
                 binding.feed = item
                 binding.feedIamge.bindData(item.width, item.height, 16, item.cover)
+                binding.owner = context as LifecycleOwner
             } else if (binding is LayoutFeedTypeVideoBinding) {
                 binding.feed = item
                 binding.listPlayerView.bindData(
                     mCategory, item.width, item.height, item.cover!!, item.url!!
                 )
+                binding.owner = context as LifecycleOwner
             }
         }
 

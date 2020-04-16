@@ -1,12 +1,15 @@
 package com.lvkang.ppjoke.model
 
 import androidx.annotation.Nullable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.lvkang.ppjoke.BR
 import java.io.Serializable
 
 /**
  * @author 345
  */
-class Ugc : Serializable {
+class Ugc : BaseObservable(), Serializable {
     /**
      * likeCount : 153
      * shareCount : 0
@@ -16,11 +19,36 @@ class Ugc : Serializable {
      * hasdiss:false
      */
     var likeCount = 0
-    var shareCount = 0
     var commentCount = 0
     var hasFavorite = false
+    var shareCount = 0
+        @Bindable
+        get
     var hasdiss = false
+        @Bindable
+        get
+        set(value) {
+            if (field == value) return
+            if (value) {
+                hasLiked = false
+            }
+            field = value
+        }
+
+
     var hasLiked = false
+        @Bindable
+        get
+        set(value) {
+            if (value) {
+                likeCount += 1
+                hasdiss = false
+            } else {
+                likeCount -= 1
+            }
+            field = value
+            notifyPropertyChanged(BR._all)
+        }
 
     override fun equals(@Nullable other: Any?): Boolean {
         if (other == null || other !is Ugc)

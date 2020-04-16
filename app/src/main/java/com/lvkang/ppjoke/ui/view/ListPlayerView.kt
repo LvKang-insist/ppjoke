@@ -2,13 +2,13 @@ package com.lvkang.ppjoke.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.lvkang.libcommon.PixUtils
+import com.lvkang.libcommon.view.PPImageView
 import com.lvkang.ppjoke.R
 
 class ListPlayerView : FrameLayout {

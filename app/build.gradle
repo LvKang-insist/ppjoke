@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+
     compileSdkVersion rootProject.android.compileSdkVersion
     defaultConfig {
         applicationId rootProject.android.applicationId
@@ -11,12 +12,6 @@ android {
         targetSdkVersion rootProject.android.targetSdkVersion
         versionCode rootProject.android.versionCode
         versionName rootProject.android.versionName
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
     compileOptions {
         sourceCompatibility = 1.8
@@ -31,6 +26,22 @@ android {
 
     dataBinding {
         enabled = true
+    }
+
+    signingConfigs {
+        config {
+            storeFile file('C:\\Users\\Administrator\\Desktop\\345\\Project\\ppjoke\\app\\ppjoke.jks')
+            storePassword '123456789'
+            keyAlias = 'Key0'
+            keyPassword '123456789'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
     }
 }
 

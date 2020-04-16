@@ -1,11 +1,10 @@
-package com.lvkang.ppjoke.ui.view
+package com.lvkang.libcommon.view
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.BindingAdapter

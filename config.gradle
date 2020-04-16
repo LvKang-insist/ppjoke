@@ -16,6 +16,4 @@ ext {
     depsLibs = [
             appcompat: "androidx.appcompat:appcompat:${depsVersion.appcompat}",
     ]
-
-
 }

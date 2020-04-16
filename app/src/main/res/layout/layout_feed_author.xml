@@ -20,7 +20,7 @@
         android:paddingLeft="@dimen/dp_16"
         android:paddingRight="@dimen/dp_16">
 
-        <com.lvkang.ppjoke.ui.view.PPImageView
+        <com.lvkang.libcommon.view.PPImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"

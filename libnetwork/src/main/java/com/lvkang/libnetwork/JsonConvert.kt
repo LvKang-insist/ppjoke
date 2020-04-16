@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.alibaba.fastjson.JSON
 import java.lang.reflect.Type
-import kotlin.math.log
 
 /**
  * @name ppjoke
@@ -25,9 +24,6 @@ class JsonConvert<T> : Convert<T> {
             return JSON.parseObject(any.toString(), type)
         }
 
-        if (type.typeName == String::class.java.typeName) {
-            return response as T
-        }
         return JSON.parseObject(response, type)
     }
 

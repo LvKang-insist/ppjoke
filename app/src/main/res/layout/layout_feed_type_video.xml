@@ -8,6 +8,10 @@
             name="feed"
             type="com.lvkang.ppjoke.model.Feed" />
 
+        <variable
+            name="owner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
         <import type="android.view.View" />
     </data>
 
@@ -40,7 +44,8 @@
         <include
             layout="@layout/layout_feed_top_comment"
             android:visibility="@{feed.topComment==null? View.GONE:View.VISIBLE}"
-            app:comment="@{feed.topComment}" />
+            app:comment="@{feed.topComment}"
+            app:owner="@{owner}" />
 
         <!--        标签区域-->
         <include
@@ -50,7 +55,8 @@
         <!-- 互动区域-->
         <include
             layout="@layout/layout_feed_interaction"
-            app:feed="@{feed}" />
+            app:feed="@{feed}"
+            app:owner="@{owner}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

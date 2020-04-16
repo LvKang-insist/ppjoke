@@ -1,12 +1,14 @@
 package com.lvkang.ppjoke.model
 
 import android.text.TextUtils
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import java.io.Serializable
 
 /**
  * @author 345
  */
-class Feed : Serializable {
+class Feed : BaseObservable(), Serializable {
 
     companion object {
         const val TYPE_IMAGE: Int = 1
@@ -45,6 +47,11 @@ class Feed : Serializable {
     var author: User? = null
     var topComment: Comment? = null
     var ugc: Ugc? = null
+        @Bindable
+        get() {
+            if (field == null) field = Ugc()
+            return field
+        }
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other is Feed) return false

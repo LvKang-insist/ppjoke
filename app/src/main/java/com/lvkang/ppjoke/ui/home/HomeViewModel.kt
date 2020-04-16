@@ -14,6 +14,7 @@ import com.lvkang.libnetwork.Request
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsViewModel
 import com.lvkang.ppjoke.ui.MutableDataSource
+import com.lvkang.ppjoke.ui.login.UserManager
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -64,12 +65,12 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
     }
 
     private fun loadData(key: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
-        if (key > 0){
+        if (key > 0) {
             loadAfter.set(true)
         }
         val request = ApiService.get<List<Feed>>("/feeds/queryHotFeedsList")
             .addParam("feedType", null)
-            .addParam("userId", 0)
+            .addParam("userId", UserManager.getUserId())
             //feedId：最后一条item 的id
             .addParam("feedId", key)
             //每页多少条
@@ -111,20 +112,20 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
             callback.onResult(data)
         }
         Log.e("url：", "${data!!.size}")
-        // key 大于 0 则会为下拉加载
+        // key 大于 0 则会为加载更多
         if (key > 0) {
-            //关闭下拉加载动画
+            //关闭加载更多动画
             boundaryPageData.postValue(true)
             loadAfter.set(false)
         }
     }
 
     fun loadAfter(id: Int, callback: ItemKeyedDataSource.LoadCallback<Feed>) {
-        if (loadAfter.get()){
+        if (loadAfter.get()) {
             callback.onResult(Collections.emptyList())
         }
         ArchTaskExecutor.getIOThreadExecutor().execute {
-            loadData(id,callback)
+            loadData(id, callback)
         }
     }
 }
