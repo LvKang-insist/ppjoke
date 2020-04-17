@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.exoplayer2.ui.PlayerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/player_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    app:keep_content_on_player_reset="false"
+    app:player_layout_id="@layout/layout_simple_exo_player_view"
+    app:resize_mode="zoom"
+    app:show_buffering="never"
+    app:show_timeout="1000"
+    app:surface_type="texture_view"
+    app:use_controller="false" />
+
+    <!--keepScreenOn：保持屏幕常亮
+        use_controller：是否使用默认的视频加载，播放控制器
+        show_timeout：自定义的播放控制器 和 PlayerView 绑定的时候，控制器要显示多久之后隐藏
+        keep_content_on_player_reset：视频重置的时候是否需要保留最后一贞
+        surface_type：显示视频画面 View 的类型
+        resize_mode：视频画面贞的缩放形式
+        show_buffering：视频加载的时候是否需要显示默认的加载框
+        player_layout_id：PlayerView 的布局样式，默认的样式为 R.layout.exo_player_view，将其拷贝并修改，然后指定Wie修改的布局样式-->

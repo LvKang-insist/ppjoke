@@ -84,7 +84,7 @@ class PPImageView : AppCompatImageView {
             bindData(
                 widthPx, heightPx, marginLeft,
                 PixUtils.getScreenWidth(),
-                PixUtils.getScreenHeight(),
+                PixUtils.getScreenWidth(),
                 imageUrl
             )
         }

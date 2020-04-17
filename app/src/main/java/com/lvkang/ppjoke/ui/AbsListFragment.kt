@@ -32,7 +32,7 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
     private var binding: LayoutRefreshViewBinding? = null
     var mAdapter: PagedListAdapter<V, ViewHolder>? = null
     private var mRefreshLayout: SmartRefreshLayout? = null
-    private var mRecyclerView: RecyclerView? = null
+    var mRecyclerView: RecyclerView? = null
     private var mEmptyView: EmptyView? = null
 
     var mViewModel: M? = null

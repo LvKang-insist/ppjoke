@@ -14,11 +14,12 @@ import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.lvkang.ppjoke.model.Feed
+import com.lvkang.ppjoke.ui.view.ListPlayerView
 
 /**
  * 适配器
  */
-class FeedAdapter(val mContext: Context, private val mCategory: String) :
+open class FeedAdapter(private val mContext: Context, private val mCategory: String) :
     PagedListAdapter<Feed, FeedAdapter.ViewHolder>(ItemCallBack()) {
 
     var inflater: LayoutInflater? = null
@@ -83,6 +84,8 @@ class FeedAdapter(val mContext: Context, private val mCategory: String) :
 
     class ViewHolder(val view: View, val binding: ViewDataBinding, private val mCategory: String) :
         RecyclerView.ViewHolder(view) {
+        var listPlayView: ListPlayerView? = null
+
         fun bindData(item: Feed, context: Context) {
             if (binding is LayoutFeedTypeImageBinding) {
                 //绑定数据
@@ -95,9 +98,18 @@ class FeedAdapter(val mContext: Context, private val mCategory: String) :
                     mCategory, item.width, item.height, item.cover!!, item.url!!
                 )
                 binding.owner = context as LifecycleOwner
+                listPlayView = binding.listPlayerView
             }
         }
 
+        fun isVideoItem(): Boolean {
+            return binding is LayoutFeedTypeVideoBinding
+        }
+
+        fun getListPlayerView(): ListPlayerView {
+            return listPlayView!!
+        }
     }
+
 
 }

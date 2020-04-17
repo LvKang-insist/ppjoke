@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.exoplayer2.ui.PlayerControlView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_controller_view_tag"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    app:controller_layout_id="@layout/layout_simple_exo_player_controller_view">
+
+    <!--视频播放控制的View：默认的布局是：R.layout.exo_player_control_view
+        controller_layout_id：播放控制View，将默认布局拷出来，删除无用的之后的布局-->
+
+</com.google.android.exoplayer2.ui.PlayerControlView>

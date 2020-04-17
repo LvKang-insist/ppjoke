@@ -9,6 +9,7 @@ import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsListFragment
 import com.lvkang.ppjoke.ui.MutableDataSource
+import com.lvkang.ppjoke.ui.exoplayer.PageListPlayDetector
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
@@ -19,8 +20,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
  * @description
  */
 
+@Suppress("UNCHECKED_CAST")
 @FragmentDestination(pageUrl = "main/tabs/home", asStarter = true)
 class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
+
+    var playDetector: PageListPlayDetector? = null
 
     /**
      * 设置 Adapter
@@ -29,7 +33,24 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
         //mCategory
         val feedType: String? = if (arguments == null) "all" else arguments!!.getString("feedType")
-        return FeedAdapter(context!!, feedType!!) as PagedListAdapter<Feed, RecyclerView.ViewHolder>
+        return object : FeedAdapter(context!!, feedType!!) {
+            //视图被添加到窗口时调用
+            override fun onViewAttachedToWindow(holder: ViewHolder) {
+                super.onViewAttachedToWindow(holder)
+                if (holder.isVideoItem()) {
+                    playDetector?.addTarget(holder.getListPlayerView())
+                }
+            }
+
+            //视图被划出时
+            override fun onViewDetachedFromWindow(holder: ViewHolder) {
+                super.onViewDetachedFromWindow(holder)
+                if (holder.isVideoItem()){
+                    playDetector?.remoeTarget(holder.getListPlayerView())
+                }
+            }
+
+        } as PagedListAdapter<Feed, RecyclerView.ViewHolder>
     }
 
     /**
@@ -63,7 +84,19 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
     override fun afterCreateView() {
         mViewModel?.cacheLiveData?.observe(this,
             Observer<PagedList<Feed>> { t -> if (t != null) submitList(t) })
+
+        //列表滚动自动播放
+        playDetector = PageListPlayDetector(this, mRecyclerView!!)
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        playDetector?.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        playDetector?.onResume()
+    }
 }
