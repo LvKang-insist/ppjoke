@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="com.lvkang.ppjoke.model.Feed" />
+
+        <import type="com.lvkang.libcommon.PixUtils" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_feed_detail_author_info"
+            app:feed="@{feed}"
+            app:fullscreen="@{false}"
+            app:leftMargin="@{PixUtils.Companion.dp2px(16)}" />
+
+        <include
+            layout="@layout/layout_feed_text"
+            app:feedText="@{feed.feeds_text}"
+            app:lines="@{1000}" />
+
+        <com.lvkang.libcommon.view.PPImageView
+            android:id="@+id/header_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:backgroundTint="@color/color_divider" />
+    </LinearLayout>
+</layout>

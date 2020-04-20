@@ -66,13 +66,11 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
         decoration.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.list_divider)!!)
         mRecyclerView?.addItemDecoration(decoration)
 
-        afterCreateView()
 
         init()
         return binding?.root
     }
 
-    abstract fun afterCreateView()
 
     private fun init() {
         //利用 子类传递的泛型参数实例化出 absViewModel 对象

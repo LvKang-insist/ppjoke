@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSONObject
-import com.elvishew.xlog.XLog
 import com.lvkang.libcommon.AppGlobals
 import com.lvkang.libnetwork.ApiResponse
 import com.lvkang.libnetwork.ApiService
@@ -48,7 +47,6 @@ class InteractionPresenter {
                 .execute(object : JsonCallback<JSONObject>() {
                     override fun onSuccess(response: ApiResponse<JSONObject>) {
                         val hasLiked = response.body?.getBoolean("hasLiked")
-                        XLog.e("--------------${hasLiked}")
                         feed.ugc?.hasLiked = hasLiked!!
                     }
                 })

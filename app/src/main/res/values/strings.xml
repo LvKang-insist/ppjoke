@@ -5,4 +5,12 @@
     <string name="title_notifications">Notifications</string>
     <string name="cai">踩</string>
     <string name="login_text">QQ快捷登陆</string>
+
+    <string name="has_follow">已关注</string>
+    <string name="un_follow">未关注</string>
+    <string name="feed_detail_hint">友善的皮才是真的皮</string>
+    <string name="like">赞</string>
+    <string name="has_collect">已收藏</string>
+    <string name="collect">收藏</string>
+    <string name="share">分享</string>
 </resources>

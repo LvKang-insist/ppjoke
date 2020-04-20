@@ -12,10 +12,8 @@ import com.lvkang.libnavannotation.FragmentDestination
 import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.utils.alert
 import com.lvkang.ppjoke.utils.download.DownloadModel
-import com.lvkang.ppjoke.utils.loe
 import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.coroutines.launch
-import java.io.File
 
 /**
  * @name ppjoke
@@ -33,7 +31,7 @@ class MyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        loe("onCreateView", "MyFragment")
+
         return inflater.inflate(R.layout.fragment_my, container, false)
     }
 

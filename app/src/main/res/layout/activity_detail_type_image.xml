@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="com.lvkang.ppjoke.model.Feed" />
+
+        <import type="com.lvkang.libcommon.PixUtils" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_back_black"
+                app:srcCompat="@drawable/icon_back_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="帖子详情页"
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/color_gray2" />
+
+            <include
+                android:id="@+id/author_info_layout"
+                layout="@layout/layout_feed_detail_author_info"
+                android:visibility="gone"
+                app:feed="@{feed}"
+                app:fullscreen="@{false}"
+                app:leftMargin="@{PixUtils.Companion.dp2px(60)}" />
+        </FrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <include
+            layout="@layout/layout_feed_detail_bottom_inateraction"
+            app:feed="@{feed}"
+            app:fullscreen="@{false}" />
+    </LinearLayout>
+</layout>

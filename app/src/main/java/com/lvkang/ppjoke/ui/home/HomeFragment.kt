@@ -1,5 +1,7 @@
 package com.lvkang.ppjoke.ui.home
 
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.paging.ItemKeyedDataSource
 import androidx.paging.PagedList
@@ -10,6 +12,7 @@ import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.ui.AbsListFragment
 import com.lvkang.ppjoke.ui.MutableDataSource
 import com.lvkang.ppjoke.ui.exoplayer.PageListPlayDetector
+import com.lvkang.ppjoke.ui.exoplayer.PageListPlayManager
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
@@ -26,13 +29,45 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
     var playDetector: PageListPlayDetector? = null
 
+    var feedType: String? = null
+
+    companion object {
+        @JvmStatic
+        fun newInstance(feedType: String): HomeFragment {
+            val args = Bundle()
+            args.putString("feedType", feedType)
+            val fragment = HomeFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mViewModel?.cacheLiveData?.observe(this,
+            Observer<PagedList<Feed>> { t -> if (t != null) submitList(t) })
+        //列表滚动自动播放
+        playDetector = PageListPlayDetector(this, mRecyclerView!!)
+
+        mViewModel?.feedType = feedType
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            playDetector?.onPause()
+        } else {
+            playDetector?.onResume()
+        }
+    }
+
     /**
      * 设置 Adapter
      */
     override fun getAdapter(): PagedListAdapter<Feed, RecyclerView.ViewHolder> {
 
         //mCategory
-        val feedType: String? = if (arguments == null) "all" else arguments!!.getString("feedType")
+        feedType = if (arguments == null) "all" else arguments!!.getString("feedType")
+
         return object : FeedAdapter(context!!, feedType!!) {
             //视图被添加到窗口时调用
             override fun onViewAttachedToWindow(holder: ViewHolder) {
@@ -45,7 +80,7 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
             //视图被划出时
             override fun onViewDetachedFromWindow(holder: ViewHolder) {
                 super.onViewDetachedFromWindow(holder)
-                if (holder.isVideoItem()){
+                if (holder.isVideoItem()) {
                     playDetector?.remoeTarget(holder.getListPlayerView())
                 }
             }
@@ -81,15 +116,6 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
     }
 
 
-    override fun afterCreateView() {
-        mViewModel?.cacheLiveData?.observe(this,
-            Observer<PagedList<Feed>> { t -> if (t != null) submitList(t) })
-
-        //列表滚动自动播放
-        playDetector = PageListPlayDetector(this, mRecyclerView!!)
-    }
-
-
     override fun onPause() {
         super.onPause()
         playDetector?.onPause()
@@ -97,6 +123,20 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        playDetector?.onResume()
+        //判断父布局是否为 fragment
+        if (parentFragment != null) {
+            if (parentFragment!!.isVisible && isVisible) {
+                playDetector?.onResume()
+            }
+        } else {
+            if (isVisible) {
+                playDetector?.onResume()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        PageListPlayManager.release(feedType!!)
+        super.onDestroy()
     }
 }

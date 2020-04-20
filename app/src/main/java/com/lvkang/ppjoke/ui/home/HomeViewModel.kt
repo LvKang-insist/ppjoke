@@ -28,6 +28,8 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
 
     private val loadAfter = AtomicBoolean()
 
+     var feedType: String? = null
+
     override fun createDataSource(): DataSource<Int, Feed> {
         return mDataSource
     }
@@ -70,7 +72,7 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
             loadAfter.set(true)
         }
         val request = ApiService.get<List<Feed>>("/feeds/queryHotFeedsList")
-            .addParam("feedType", null)
+            .addParam("feedType", feedType)
             .addParam("userId", UserManager.getUserId())
             //feedId：最后一条item 的id
             .addParam("feedId", key)

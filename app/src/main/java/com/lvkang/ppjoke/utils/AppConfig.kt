@@ -4,7 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lvkang.ppjoke.model.BottomBar
 import com.lvkang.ppjoke.model.Destination
-import kotlin.collections.HashMap
+import com.lvkang.ppjoke.model.SofaTab
+import java.util.*
 
 /**
  * @name ppjoke
@@ -19,7 +20,25 @@ class AppConfig {
 
         private var mDestConfig: Map<String, Destination>? = null
         private var mBottomBar: BottomBar? = null
+        private var sSofaTab: SofaTab? = null
 
+        /**
+         * 获取沙发页面的 tab 配置
+         */
+        fun getSofaTabConfig(): SofaTab {
+            if (sSofaTab == null) {
+                sSofaTab = Gson().fromJson<SofaTab>(
+                    parseFile("sofa_tabs_config.json"),
+                    SofaTab::class.java
+                )
+                Collections.sort(sSofaTab!!.tabs, object : Comparator<SofaTab.Tab> {
+                    override fun compare(o1: SofaTab.Tab, o2: SofaTab.Tab): Int {
+                        return if (o1.index < o2.index) -1 else 1
+                    }
+                })
+            }
+            return sSofaTab!!
+        }
 
         /**
          * 获取底部 Tab 的信息

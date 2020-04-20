@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="沙发"
-        android:textSize="30sp" />
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/sofa_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:tabIndicatorColor="@color/color_theme"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/color_theme"
+            app:tabTextColor="@color/color_333"
+            app:tabUnboundedRipple="true" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/sofa_viewapager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -8,12 +8,12 @@ import android.view.*
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.exoplayer2.Player
+import com.hjq.toast.ToastUtils
 import com.lvkang.libcommon.PixUtils
 import com.lvkang.libcommon.view.PPImageView
 import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.ui.exoplayer.IPlayTarget
 import com.lvkang.ppjoke.ui.exoplayer.PageListPlayManager
-import kotlin.math.exp
 
 class ListPlayerView : FrameLayout, IPlayTarget, Player.EventListener {
 
@@ -162,6 +162,7 @@ class ListPlayerView : FrameLayout, IPlayTarget, Player.EventListener {
                 params.gravity = Gravity.BOTTOM
                 this.addView(controlView, params)
                 controlView.setVisibilityListener {
+                    ToastUtils.show("$it")
                     playBtn?.visibility = it
                     playBtn?.setImageResource(if (isPlaying()) R.drawable.icon_video_pause else R.drawable.icon_video_play)
                 }

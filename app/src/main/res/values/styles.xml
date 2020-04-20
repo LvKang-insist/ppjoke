@@ -7,9 +7,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <!--关联 materialButton-->
         <item name="materialButtonStyle">@style/materialButton</item>
+    </style>
+
+    <style name="launcher" parent="AppTheme">
+
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
     <!--  修改 MaterialButton 的属性-->

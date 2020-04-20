@@ -13,6 +13,7 @@ import com.lvkang.ppjoke.ui.login.UserManager
 import com.lvkang.ppjoke.ui.view.AppBottomBar
 import com.lvkang.ppjoke.utils.AppConfig
 import com.lvkang.ppjoke.utils.NavGraphBuilder
+import com.lvkang.ppjoke.utils.StatusBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +21,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var bottomBar: AppBottomBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        StatusBar.fitSystemBar(this)
         //由于 启动时设置了 R.style.launcher 的windowBackground属性
         //势必要在进入主页后,把窗口背景清理掉
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
