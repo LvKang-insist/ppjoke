@@ -64,7 +64,8 @@
 
 
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.detail.FeedDetailActivity"/>
+        <activity android:name=".ui.detail.FeedDetailActivity"
+            android:theme="@style/feedDetail"/>
     </application>
 
 

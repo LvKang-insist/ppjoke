@@ -1,10 +1,11 @@
-package com.lvkang.ppjoke.ui.home
+package com.lvkang.ppjoke
 
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSONObject
+import com.hjq.toast.ToastUtils
 import com.lvkang.libcommon.AppGlobals
 import com.lvkang.libnetwork.ApiResponse
 import com.lvkang.libnetwork.ApiService
@@ -14,6 +15,9 @@ import com.lvkang.ppjoke.model.Feed
 import com.lvkang.ppjoke.model.User
 import com.lvkang.ppjoke.ui.ShareDialog
 import com.lvkang.ppjoke.ui.login.UserManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class InteractionPresenter {
@@ -29,7 +33,9 @@ class InteractionPresenter {
                 loginLiveData.observe(owner, object : Observer<User> {
                     override fun onChanged(t: User?) {
                         if (t != null) {
-                            toogeFeedLikeInternal(feed)
+                            toogeFeedLikeInternal(
+                                feed
+                            )
                         }
                         loginLiveData.removeObserver(this)
                     }
@@ -62,7 +68,9 @@ class InteractionPresenter {
                 loginLiveData.observe(owner, object : Observer<User> {
                     override fun onChanged(t: User?) {
                         if (t != null) {
-                            toggleFeedDissInternal(feed)
+                            toggleFeedDissInternal(
+                                feed
+                            )
                         }
                         loginLiveData.removeObserver(this)
                     }
@@ -114,7 +122,9 @@ class InteractionPresenter {
                     override fun onChanged(t: User?) {
                         liveData.removeObserver(this)
                         if (t != null) {
-                            toggleCommentLikeInternal(comment)
+                            toggleCommentLikeInternal(
+                                comment
+                            )
                         }
                     }
                 })
@@ -137,5 +147,59 @@ class InteractionPresenter {
                     }
                 })
         }
+
+        /**
+         * 收藏帖子
+         */
+        @JvmStatic
+        fun toggleFeedFavorite(owner: LifecycleOwner, feed: Feed?) {
+            if (feed == null) {
+                ToastUtils.show("空")
+                return
+            }
+            if (!UserManager.isLogin()) {
+                val liveData = UserManager.login(AppGlobals.getApplication())
+                liveData.observe(owner, object : Observer<User> {
+                    override fun onChanged(t: User?) {
+                        liveData.removeObserver(this)
+                        if (t != null) {
+                            toggleFeedFavorite(feed)
+                        }
+                    }
+                })
+                return
+            }
+
+
+            toggleFeedFavorite(feed)
+        }
+
+        @JvmStatic
+        fun toggleFeedFavorite(feed: Feed) {
+            ApiService.get<JSONObject>("/ugc/toggleFavorite")
+                .addParam("itemId", feed.itemId)
+                .addParam("userId", UserManager.getUserId())
+                .execute(object : JsonCallback<JSONObject>() {
+                    override fun onSuccess(response: ApiResponse<JSONObject>) {
+                        if (response.body != null) {
+                            val value = response.body?.getBooleanValue("hasFavorite")
+                            feed.ugc?.hasFavorite = value!!
+                        }
+                    }
+
+                    override fun onError(response: ApiResponse<JSONObject>) {
+                        showToast(response.message)
+                    }
+                })
+        }
+
+
+        private fun showToast(message: String?) {
+            GlobalScope.launch(Dispatchers.Main) {
+                ToastUtils.show(message)
+            }
+        }
     }
+
+
 }

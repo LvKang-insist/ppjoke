@@ -21,6 +21,12 @@ class Ugc : BaseObservable(), Serializable {
     var likeCount = 0
     var commentCount = 0
     var hasFavorite = false
+        @Bindable
+        get
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR._all)
+        }
     var shareCount = 0
         @Bindable
         get

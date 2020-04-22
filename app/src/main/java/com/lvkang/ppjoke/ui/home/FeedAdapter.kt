@@ -14,6 +14,7 @@ import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeVideoBinding
 import com.lvkang.ppjoke.model.Feed
+import com.lvkang.ppjoke.ui.detail.FeedDetailActivity
 import com.lvkang.ppjoke.ui.view.ListPlayerView
 
 /**
@@ -80,6 +81,9 @@ open class FeedAdapter(private val mContext: Context, private val mCategory: Str
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //
         holder.bindData(getItem(position)!!, mContext)
+        holder.itemView.setOnClickListener {
+            FeedDetailActivity.startFeedDetailActivity(mContext, getItem(position), mCategory)
+        }
     }
 
     class ViewHolder(val view: View, val binding: ViewDataBinding, private val mCategory: String) :

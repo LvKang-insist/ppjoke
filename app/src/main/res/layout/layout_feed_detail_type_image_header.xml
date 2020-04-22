@@ -20,12 +20,11 @@
             layout="@layout/layout_feed_detail_author_info"
             app:feed="@{feed}"
             app:fullscreen="@{false}"
-            app:leftMargin="@{PixUtils.Companion.dp2px(16)}" />
+            app:leftMargin="@{PixUtils.dp2px(16)}" />
 
         <include
             layout="@layout/layout_feed_text"
-            app:feedText="@{feed.feeds_text}"
-            app:lines="@{1000}" />
+            app:feedText="@{feed.feeds_text}" />
 
         <com.lvkang.libcommon.view.PPImageView
             android:id="@+id/header_image"

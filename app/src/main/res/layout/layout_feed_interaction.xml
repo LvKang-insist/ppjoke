@@ -15,7 +15,7 @@
 
         <import type="com.lvkang.ppjoke.utils.StringConvert" />
 
-        <import type="com.lvkang.ppjoke.ui.home.InteractionPresenter" />
+        <import type="com.lvkang.ppjoke.InteractionPresenter" />
 
         <import type="android.content.Context" />
 

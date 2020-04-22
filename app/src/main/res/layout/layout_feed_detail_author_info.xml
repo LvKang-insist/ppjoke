@@ -19,7 +19,7 @@
 
         <import type="com.lvkang.ppjoke.utils.TimeUtils" />
 
-        <import type="com.lvkang.ppjoke.ui.home.InteractionPresenter" />
+        <import type="com.lvkang.ppjoke.InteractionPresenter" />
 
         <variable
             name="owner"

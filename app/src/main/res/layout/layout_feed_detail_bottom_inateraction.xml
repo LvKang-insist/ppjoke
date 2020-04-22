@@ -13,12 +13,20 @@
             type="Boolean" />
 
         <import type="android.view.View" />
+
+        <import type="com.lvkang.ppjoke.InteractionPresenter" />
+
+        <variable
+            name="owner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+        <import type="android.content.Context"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@{fullscreen?@color/tansparent:@color/color_white}"
+        android:background="@{fullscreen?@color/transparent:@color/color_white}"
         android:orientation="vertical">
 
         <View
@@ -82,13 +90,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{()->InteractionPresenter.toggleFeedFavorite(owner,feed)}"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_2"
+                    android:onClick="@{()-> InteractionPresenter.toggleFeedFavorite(owner,feed)}"
                     android:background="@{feed.ugc.hasFavorite?@drawable/ic_collected:@drawable/ic_collect}"
                     android:backgroundTint="@{feed.ugc.hasFavorite?@color/color_theme:fullscreen?@color/color_white:@color/color_666}"
                     tools:src="@drawable/ic_collected">

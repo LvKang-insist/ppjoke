@@ -16,6 +16,10 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="feedDetail" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!--  修改 MaterialButton 的属性-->
     <style name="materialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:paddingLeft">8dp</item>
