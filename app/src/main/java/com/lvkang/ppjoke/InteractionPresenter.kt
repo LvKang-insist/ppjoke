@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.alibaba.fastjson.JSONObject
 import com.hjq.toast.ToastUtils
 import com.lvkang.libcommon.AppGlobals
+import com.lvkang.libcommon.extention.LiveDataBus
 import com.lvkang.libnetwork.ApiResponse
 import com.lvkang.libnetwork.ApiService
 import com.lvkang.libnetwork.JsonCallback
@@ -21,7 +22,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class InteractionPresenter {
+
+
     companion object {
+
+        const val DATA_FROM_INTERACTION = "data_from_interaction"
 
         /**
          * 点赞，取消点赞的行为
@@ -54,6 +59,8 @@ class InteractionPresenter {
                     override fun onSuccess(response: ApiResponse<JSONObject>) {
                         val hasLiked = response.body?.getBoolean("hasLiked")
                         feed.ugc?.hasLiked = hasLiked!!
+                        LiveDataBus.with(DATA_FROM_INTERACTION)
+                            .postValue(feed)
                     }
                 })
         }
@@ -184,6 +191,8 @@ class InteractionPresenter {
                         if (response.body != null) {
                             val value = response.body?.getBooleanValue("hasFavorite")
                             feed.ugc?.hasFavorite = value!!
+                            LiveDataBus.with(DATA_FROM_INTERACTION)
+                                .postValue(feed)
                         }
                     }
 

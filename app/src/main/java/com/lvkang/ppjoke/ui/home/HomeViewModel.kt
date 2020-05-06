@@ -3,6 +3,7 @@ package com.lvkang.ppjoke.ui.home
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
@@ -25,6 +26,7 @@ open class HomeViewModel : AbsViewModel<Int, Feed>() {
     private var witchCache = true
 
     val cacheLiveData = MutableLiveData<PagedList<Feed>>()
+
 
     private val loadAfter = AtomicBoolean()
 

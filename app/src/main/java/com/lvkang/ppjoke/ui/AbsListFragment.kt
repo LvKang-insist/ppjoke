@@ -88,7 +88,9 @@ abstract class AbsListFragment<V, M : AbsViewModel<Int, V>> : Fragment(),
 
             //监听数据边界，已决定是否关闭上拉加载的动画
             mViewModel!!.boundaryPageData.observe(viewLifecycleOwner,
-                Observer<Boolean> { t -> finishRefresh(t) })
+               Observer {
+                      finishRefresh(it)
+               })
         }
 
     }

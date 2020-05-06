@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.lvkang.libcommon.extention.LiveDataBus
+import com.lvkang.ppjoke.InteractionPresenter
 import com.lvkang.ppjoke.R
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeImageBinding
 import com.lvkang.ppjoke.databinding.LayoutFeedTypeVideoBinding
@@ -83,7 +87,30 @@ open class FeedAdapter(private val mContext: Context, private val mCategory: Str
         holder.bindData(getItem(position)!!, mContext)
         holder.itemView.setOnClickListener {
             FeedDetailActivity.startFeedDetailActivity(mContext, getItem(position), mCategory)
+            if (mFeedObserver == null) {
+                mFeedObserver = FeedObserver()
+                LiveDataBus.with(InteractionPresenter.DATA_FROM_INTERACTION)
+                    .observe(mContext as LifecycleOwner, mFeedObserver as Observer<in Any>)
+            }
         }
+
+    }
+
+    private var mFeedObserver: FeedObserver? = null
+
+    class FeedObserver : Observer<Feed> {
+        var mFeed: Feed? = null
+        override fun onChanged(t: Feed?) {
+            if (mFeed != null) {
+                if (mFeed!!.id != t?.id){
+                    return
+                }
+                mFeed?.author = t.author
+                mFeed?.ugc = t.ugc
+                mFeed?.notifyChange()
+            }
+        }
+
     }
 
     class ViewHolder(val view: View, val binding: ViewDataBinding, private val mCategory: String) :
